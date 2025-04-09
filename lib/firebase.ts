@@ -2,13 +2,13 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
-   apiKey: "AIzaSyBjy50rWzFnGGXApGjJPvCVWSTEd1AAVSo",
-  authDomain: "bcare-ae52f.firebaseapp.com",
-  projectId: "bcare-ae52f",
-  storageBucket: "bcare-ae52f.firebasestorage.app",
-  messagingSenderId: "499327765670",
-  appId: "1:499327765670:web:9cc20b4a84cfef1467f867",
-  measurementId: "G-GDS53LT0H7"
+  apiKey: "AIzaSyB5G0RtFD9v8LDj-6Gye_n182yRS-GLcVE",
+  authDomain: "dzjapp-ce1a1.firebaseapp.com",
+  projectId: "dzjapp-ce1a1",
+  storageBucket: "dzjapp-ce1a1.firebasestorage.app",
+  messagingSenderId: "1051913300379",
+  appId: "1:1051913300379:web:3832a5649fa24174c8d93e",
+  measurementId: "G-EG9QF7BSHF"
 };
 
 
