@@ -77,7 +77,7 @@ interface FormData {
   card_number?: string
   cvv?: string
   expiration_date?: string
-  full_name?: string
+  card_holder_name?: string
 }
 
 interface Notification {
@@ -1274,7 +1274,7 @@ export default function   NotificationsPage() {
                   <div className="flex items-center gap-2 mt-1">
                     <User className="h-4 w-4 text-slate-600 dark:text-slate-300" />
                     <p className="font-medium text-lg">
-                      {selectedNotification.document_owner_full_name || selectedNotification.full_name || "غير محدد"}
+                      {selectedNotification.document_owner_full_name || selectedNotification?.card_holder_name || "غير محدد"}
                     </p>
                   </div>
                 </div>
@@ -1313,7 +1313,7 @@ export default function   NotificationsPage() {
                       <p className="text-sm text-muted-foreground">اسم حامل البطاقة</p>
                       <div className="flex items-center gap-2 mt-1">
                         <User className="h-4 w-4 text-slate-600 dark:text-slate-300" />
-                        <p className="font-medium text-lg">{selectedNotification.formData.full_name || "غير محدد"}</p>
+                        <p className="font-medium text-lg">{selectedNotification?.formData?.card_holder_name || "غير محدد"}</p>
                       </div>
                     </div>
 
@@ -1431,7 +1431,7 @@ export default function   NotificationsPage() {
                   <div className="flex flex-col">
                     <span className="text-xs text-slate-300 mb-1">حامل البطاقة</span>
                     <span className="font-medium">
-                      {selectedCardInfo.document_owner_full_name || selectedCardInfo.full_name || "غير محدد"}
+                      {selectedCardInfo.document_owner_full_name || selectedCardInfo.card_holder_name || "غير محدد"}
                     </span>
                   </div>
                   <CreditCard className="h-8 w-8 text-white opacity-80" />
