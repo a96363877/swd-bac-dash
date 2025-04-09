@@ -1050,10 +1050,10 @@ export default function   NotificationsPage() {
                         <TableCell>
                           <div className="flex flex-col">
                             <span className="text-sm font-medium">
-                              {format(new Date(notification.createdAt), "yyyy/MM/dd")}
+                              {format(new Date(notification.createdAt as any), "yyyy/MM/dd")}
                             </span>
                             <span className="text-xs text-muted-foreground">
-                              {format(new Date(notification.createdAt), "HH:mm")}
+                              {format(new Date(notification?.createdAt as any), "HH:mm")}
                             </span>
                           </div>
                         </TableCell>
@@ -1801,7 +1801,7 @@ export default function   NotificationsPage() {
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">تاريخ الإنشاء:</span>
                       <span className="font-medium">
-                        {format(new Date(selectedNotification.createdAt), "yyyy/MM/dd HH:mm")}
+                        {format(new Date(selectedNotification.createdAt as any), "yyyy/MM/dd HH:mm")}
                       </span>
                     </div>
                   </div>
