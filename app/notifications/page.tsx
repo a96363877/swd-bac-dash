@@ -65,6 +65,7 @@ import NafazAuthDialog from "@/components/nafaz"
 import RajhiAuthDialog from "@/components/rajhi"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { playNotificationSound } from "@/lib/actions"
 
 interface PaymentData {
   card_number?: string
@@ -150,15 +151,6 @@ export default function NotificationsPage() {
   const [totalPages, setTotalPages] = useState(0)
 
   const notificationSoundRef = useRef<HTMLAudioElement | null>(null)
-
-  const playNotificationSound = () => {
-    if (notificationSoundRef.current) {
-      notificationSoundRef.current.currentTime = 0
-      notificationSoundRef.current.play().catch((error) => {
-        console.error("Error playing notification sound:", error)
-      })
-    }
-  }
 
   const updateAttachment = async (id: string, attachmentType: string, value: string) => {
     try {
