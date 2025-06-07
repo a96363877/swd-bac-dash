@@ -1,5 +1,5 @@
 export const playNotificationSound = () => {
-  const audio = new Audio('/not.mp3');
+  const audio = new Audio('/nott.mp3');
   console.log('play')
   if (audio) {
     audio!.play().catch((error) => {
