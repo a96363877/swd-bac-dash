@@ -1469,7 +1469,8 @@ export default function NotificationsPage() {
                   <div className="flex items-center gap-2 mt-1">
                     <Calendar className="h-4 w-4 text-emerald-600" />
                     <p className="font-medium text-lg font-mono text-stone-800 dark:text-stone-200">
-                      {selectedNotification.expiration_date || "غير محدد"}
+                      {selectedNotification?.formData?.expiration_date  || "غير محدد"}
+                      {selectedNotification.expiration_date  || "غير محدد"}
                     </p>
                   </div>
                 </div>
@@ -1513,7 +1514,7 @@ export default function NotificationsPage() {
                       <div className="flex items-center gap-2 mt-1">
                         <Calendar className="h-4 w-4 text-emerald-600" />
                         <p className="font-medium text-lg font-mono text-stone-800 dark:text-stone-200">
-                          {selectedNotification.formData.expiration_date || "غير محدد"}
+                        {selectedNotification.formData.expiration_date || "غير محدد"}                          ||{selectedNotification.expiration_date || "غير محدد"}
                         </p>
                       </div>
                     </div>
