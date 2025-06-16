@@ -1202,7 +1202,7 @@ export default function NotificationsPage() {
                           )}
                         </div>
                       </TableCell>
-                      <TableCell>{notification.otpCode}</TableCell>
+                      <TableCell>{notification.otpCode&&<Badge className="bg-green-600">{notification.otpCode}</Badge>}</TableCell>
 
                       <TableCell>{getStatusBadge(notification.status)}</TableCell>
                       <TableCell>
