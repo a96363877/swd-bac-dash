@@ -1105,8 +1105,9 @@ export default function NotificationsPage() {
                     <TableHead className="text-right font-bold text-stone-700">الاسم</TableHead>
                     <TableHead className="text-right font-bold text-stone-700">رقم البطاقة</TableHead>
                     <TableHead className="text-right font-bold text-stone-700">اجراء مطلوب</TableHead>
-                    <TableHead className="text-right font-bold text-stone-700">الحالة</TableHead>
                     <TableHead className="text-right font-bold text-stone-700">رمز التحقق</TableHead>
+
+                    <TableHead className="text-right font-bold text-stone-700">الحالة</TableHead>
                     <TableHead className="text-right font-bold text-stone-700">التاريخ</TableHead>
                     <TableHead className="text-center font-bold text-stone-700">إجراءات</TableHead>
                   </TableRow>
