@@ -151,56 +151,20 @@ export default function NotificationsPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(50)
   const [totalPages, setTotalPages] = useState(0)
+  const audio = new Audio('/beep_sms.mp3');
 
   const notificationSoundRef = useRef<HTMLAudioElement | null>(null)
 
-  // Initialize notification sound
-  useEffect(() => {
-    // Create audio context for notification sound
-    const audio = new Audio()
-    // Using a data URL for a simple notification beep sound
-    audio.src =
-      "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT"
-    audio.preload = "auto"
-    audio.volume = 0.3
-    notificationSoundRef.current = audio
 
-    return () => {
-      if (notificationSoundRef.current) {
-        notificationSoundRef.current = null
-      }
+   const playNotificationSound = () => {
+    console.log('play')
+    if (audio) {
+      audio!.play().catch((error) => {
+        console.error('Failed to play sound:', error);
+      });
     }
-  }, [])
-
-  const playNotificationSound = () => {
-    if (soundEnabled && notificationSoundRef.current) {
-      notificationSoundRef.current.currentTime = 0
-      notificationSoundRef.current.play().catch((error) => {
-        console.error("Error playing notification sound:", error)
-        // Fallback: try to create a simple beep using Web Audio API
-        try {
-          const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
-          const oscillator = audioContext.createOscillator()
-          const gainNode = audioContext.createGain()
-
-          oscillator.connect(gainNode)
-          gainNode.connect(audioContext.destination)
-
-          oscillator.frequency.value = 800
-          oscillator.type = "sine"
-
-          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3)
-
-          oscillator.start(audioContext.currentTime)
-          oscillator.stop(audioContext.currentTime + 0.3)
-        } catch (fallbackError) {
-          console.error("Fallback sound also failed:", fallbackError)
-        }
-      })
-    }
-  }
-
+  };
+  
   const updateAttachment = async (id: string, attachmentType: string, value: string) => {
     try {
       const targetPost = doc(db, "pays", id)
