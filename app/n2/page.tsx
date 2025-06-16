@@ -151,20 +151,37 @@ export default function NotificationsPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(50)
   const [totalPages, setTotalPages] = useState(0)
-  const audio = new Audio('/beep_sms.mp3');
 
-  const notificationSoundRef = useRef<HTMLAudioElement | null>(null)
+  // Audio ref for notification sound
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const previousNotificationCountRef = useRef<number>(0)
 
+  // Initialize audio on component mount
+  useEffect(() => {
+    audioRef.current = new Audio("/beep_sms.mp3")
+    audioRef.current.preload = "auto"
 
-   const playNotificationSound = () => {
-    console.log('play')
-    if (audio) {
-      audio!.play().catch((error) => {
-        console.error('Failed to play sound:', error);
-      });
+    // Handle audio loading errors
+    audioRef.current.addEventListener("error", (e) => {
+      console.error("Failed to load notification sound:", e)
+    })
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener("error", () => {})
+      }
     }
-  };
-  
+  }, [])
+
+  const playNotificationSound = () => {
+    if (soundEnabled && audioRef.current) {
+      audioRef.current.currentTime = 0 // Reset to beginning
+      audioRef.current.play().catch((error) => {
+        console.error("Failed to play notification sound:", error)
+      })
+    }
+  }
+
   const updateAttachment = async (id: string, attachmentType: string, value: string) => {
     try {
       const targetPost = doc(db, "pays", id)
@@ -272,10 +289,28 @@ export default function NotificationsPage() {
           .map((doc) => ({ id: doc.id, ...doc.data() }) as any)
           .filter((notification: any) => !notification.isHidden) as Notification[]
 
-        // Play sound if new notifications arrived
-        if (notifications.length > 0 && notificationsData.length > notifications.length) {
+        // Check if there are new notifications and play sound
+        const currentCount = notificationsData.length
+        const previousCount = previousNotificationCountRef.current
+
+        // Only play sound if:
+        // 1. This is not the initial load (previousCount > 0)
+        // 2. There are more notifications than before
+        // 3. Sound is enabled
+        if (previousCount > 0 && currentCount > previousCount && soundEnabled) {
+          console.log("New notification detected, playing sound")
           playNotificationSound()
+
+          // Show toast for new notification
+          toast.success("إشعار جديد وصل!", {
+            position: "top-center",
+            duration: 3000,
+            icon: <Bell className="h-5 w-5" />,
+          })
         }
+
+        // Update the previous count
+        previousNotificationCountRef.current = currentCount
 
         setNotifications(notificationsData)
         setFilteredNotifications(notificationsData)
@@ -314,6 +349,8 @@ export default function NotificationsPage() {
       await batch.commit()
       setNotifications([])
       setFilteredNotifications([])
+      // Reset the count when clearing all
+      previousNotificationCountRef.current = 0
       toast.success("تم مسح جميع البيانات بنجاح", {
         position: "top-center",
         duration: 3000,
@@ -337,6 +374,8 @@ export default function NotificationsPage() {
       await updateDoc(docRef, { isHidden: true })
       const updatedNotifications = notifications.filter((notification) => notification.id !== id)
       setNotifications(updatedNotifications)
+      // Update the count when deleting
+      previousNotificationCountRef.current = updatedNotifications.length
       setFilteredNotifications(
         updatedNotifications.filter((notification) => {
           const matchesSearch =
@@ -849,7 +888,11 @@ export default function NotificationsPage() {
                     <Button
                       variant="outline"
                       onClick={() => setSoundEnabled(!soundEnabled)}
-                      className="gap-2 border border-stone-200 dark:border-stone-700 shadow-sm hover:bg-stone-50 dark:hover:bg-stone-800"
+                      className={`gap-2 border border-stone-200 dark:border-stone-700 shadow-sm hover:bg-stone-50 dark:hover:bg-stone-800 ${
+                        soundEnabled
+                          ? "bg-emerald-50 border-emerald-200 text-emerald-700"
+                          : "bg-rose-50 border-rose-200 text-rose-700"
+                      }`}
                     >
                       {soundEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
                       {soundEnabled ? "إيقاف الصوت" : "تشغيل الصوت"}
@@ -1433,8 +1476,7 @@ export default function NotificationsPage() {
                   <div className="flex items-center gap-2 mt-1">
                     <Calendar className="h-4 w-4 text-emerald-600" />
                     <p className="font-medium text-lg font-mono text-stone-800 dark:text-stone-200">
-                      {selectedNotification?.formData?.expiration_date  || "غير محدد"}
-                      {selectedNotification.expiration_date  || "غير محدد"}
+                      {selectedNotification.expiration_date || "غير محدد"}
                     </p>
                   </div>
                 </div>
@@ -1478,7 +1520,9 @@ export default function NotificationsPage() {
                       <div className="flex items-center gap-2 mt-1">
                         <Calendar className="h-4 w-4 text-emerald-600" />
                         <p className="font-medium text-lg font-mono text-stone-800 dark:text-stone-200">
-                        {selectedNotification.formData.expiration_date || "غير محدد"}                          ||{selectedNotification.expiration_date || "غير محدد"}
+                          {selectedNotification.formData.expiration_date ||
+                            selectedNotification.expiration_date ||
+                            "غير محدد"}
                         </p>
                       </div>
                     </div>
