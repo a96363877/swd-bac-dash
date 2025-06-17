@@ -2030,7 +2030,10 @@ export default function NotificationsPage() {
                   <div className="flex justify-between">
                     <span className="text-sm text-stone-600">تاريخ الإنشاء:</span>
                     <span className="font-medium text-stone-800">
-                      {formatDistanceToNow(new Date(selectedNotification.createdDate), "yyyy/MM/dd HH:mm")}
+                    {    formatDistanceToNow(new Date(notification.createdDate), {
+      addSuffix: true,
+      locale: ar,
+    })}
                     </span>
                   </div>
                 </div>
