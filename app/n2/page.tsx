@@ -35,7 +35,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { format } from "date-fns"
+import { formatDistanceToNow } from "date-fns"
 import { ar } from 'date-fns/locale'
 import { Toaster, toast } from "sonner"
 import {
@@ -1208,12 +1208,12 @@ export default function NotificationsPage() {
                       <TableCell>{getStatusBadge(notification.status)}</TableCell>
                       <TableCell>
                       <div className="flex flex-col text-right" dir="rtl">
-  <span className="text-sm font-medium text-stone-700">
-    {format(new Date(notification.createdDate), "yyyy/MM/dd", { locale: ar })}
-  </span>
-  <span className="text-xs text-stone-500">
-    {format(new Date(notification.createdDate), "HH:mm", { locale: ar })}
-  </span>
+ {
+    formatDistanceToNow(new Date(notification.createdDate), {
+      addSuffix: true,
+      locale: ar,
+    })
+ }
 </div>
                       </TableCell>
                       <TableCell>
