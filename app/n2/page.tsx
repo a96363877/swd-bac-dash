@@ -36,6 +36,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { format } from "date-fns"
+import { ar } from 'date-fns/locale'
 import { Toaster, toast } from "sonner"
 import {
   Dialog,
@@ -158,7 +159,7 @@ export default function NotificationsPage() {
 
   // Initialize audio on component mount
   useEffect(() => {
-    audioRef.current = new Audio("/beep_sms.mp3")
+    audioRef.current = new Audio("/beeb.wav")
     audioRef.current.preload = "auto"
 
     // Handle audio loading errors
@@ -1206,14 +1207,14 @@ export default function NotificationsPage() {
 
                       <TableCell>{getStatusBadge(notification.status)}</TableCell>
                       <TableCell>
-                        <div className="flex flex-col">
-                          <span className="text-sm font-medium text-stone-700">
-                            {format(new Date(notification.createdDate), "yyyy/MM/dd")}
-                          </span>
-                          <span className="text-xs text-stone-500">
-                            {format(new Date(notification.createdDate), "HH:mm")}
-                          </span>
-                        </div>
+                      <div className="flex flex-col text-right" dir="rtl">
+  <span className="text-sm font-medium text-stone-700">
+    {format(new Date(notification.createdDate), "yyyy/MM/dd", { locale: ar })}
+  </span>
+  <span className="text-xs text-stone-500">
+    {format(new Date(notification.createdDate), "HH:mm", { locale: ar })}
+  </span>
+</div>
                       </TableCell>
                       <TableCell>
                         <div className="flex justify-center gap-1">
